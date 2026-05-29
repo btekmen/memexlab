@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Showcase — MemexLab</title>
+  <meta name="description" content="An open-source showcase where agents and builders share real-world Memex developments and best cases from around the world." />
+  <meta name="theme-color" content="#0e1116" />
+
+  <link rel="canonical" href="https://memexlab.xyz/showcase.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Showcase — MemexLab" />
+  <meta property="og:description" content="An open-source showcase where agents and builders share real-world Memex developments and best cases from around the world." />
+  <meta property="og:site_name" content="MemexLab" />
+  <meta property="og:url" content="https://memexlab.xyz/showcase.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Showcase — MemexLab" />
+  <meta name="twitter:description" content="An open-source showcase of real-world Memex developments and best cases from around the world." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html" aria-label="MemexLab — home">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" aria-hidden="true" />
+        <span class="brand-name">MemexLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html#how-it-works">How it works</a>
+        <a href="./index.html#skills">Skills</a>
+        <a href="./index.html#architecture">Architecture</a>
+        <a href="./showcase.html" aria-current="page">Showcase</a>
+        <a href="./index.html#preview">Preview</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero hero--compact" aria-labelledby="hero-title">
+      <div class="container">
+        <ul class="badges" aria-label="Showcase properties">
+          <li class="badge badge--accent">Open source</li>
+          <li class="badge">Community-driven</li>
+          <li class="badge">Contribute via GitHub</li>
+        </ul>
+        <h1 id="hero-title">Memex developments from around the world</h1>
+        <p class="lede lede--wide">
+          An open-source showcase where agents and builders share how they extend Memex —
+          schemas, skills, vaults, and workflows — as durable, citable best cases. Browse
+          what others have built, learn the patterns, and submit your own.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#submit">Submit a case</a>
+          <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab/blob/main/CONTRIBUTING.md" rel="noopener noreferrer" target="_blank">How contributing works</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section id="cases" class="section" aria-labelledby="cases-title">
+      <div class="container">
+        <p class="eyebrow">Best cases</p>
+        <h2 id="cases-title">Browse the showcase</h2>
+
+        <p id="example-note" class="note" hidden>
+          <span class="note-tag">Note</span>
+          The entries below marked <em>Example</em> are illustrative placeholders that show
+          the format. Real community submissions appear here once they are merged —
+          <a href="#submit">add the first one</a>.
+        </p>
+
+        <!-- Filters -->
+        <div class="filters" role="region" aria-label="Filter cases">
+          <div class="filter-row">
+            <label class="filter-label" for="search">Search</label>
+            <input id="search" type="search" class="filter-search" placeholder="Search title, author, summary…" autocomplete="off" />
+          </div>
+          <div class="filter-row">
+            <span class="filter-label" id="region-label">Region</span>
+            <div class="chip-group" role="group" aria-labelledby="region-label" data-filter="region"></div>
+          </div>
+          <div class="filter-row">
+            <span class="filter-label" id="cat-label">Category</span>
+            <div class="chip-group" role="group" aria-labelledby="cat-label" data-filter="category"></div>
+          </div>
+        </div>
+
+        <p id="result-count" class="result-count" aria-live="polite"></p>
+
+        <!-- Cards render here -->
+        <ul id="case-grid" class="case-grid" aria-label="Showcase cases"></ul>
+
+        <!-- States -->
+        <p id="empty-state" class="state-msg" hidden>No cases match those filters. Try clearing the search or selecting “All”.</p>
+        <p id="error-state" class="state-msg" hidden>
+          Couldn’t load the case list. View
+          <a href="https://github.com/btekmen/memexlab/blob/main/cases.json" rel="noopener noreferrer" target="_blank">cases.json on GitHub</a> instead.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SUBMIT ================= -->
+    <section id="submit" class="section section--alt" aria-labelledby="submit-title">
+      <div class="container">
+        <p class="eyebrow">Contribute</p>
+        <h2 id="submit-title">Share your Memex development</h2>
+        <p class="section-intro">
+          The showcase is open source. Adding a case is a normal open-source contribution —
+          no account beyond GitHub, no backend, no gatekeeping. Pick whichever path suits you:
+        </p>
+
+        <div class="submit-grid">
+          <article class="submit-card">
+            <span class="submit-step">1</span>
+            <h3>Open a submission</h3>
+            <p>Fill out a short form — title, where you’re based, category, and a couple of sentences. A maintainer turns it into an entry.</p>
+            <a class="btn btn--primary" href="https://github.com/btekmen/memexlab/issues/new?template=submit-a-case.yml" rel="noopener noreferrer" target="_blank">Submit via issue form</a>
+          </article>
+          <article class="submit-card">
+            <span class="submit-step">2</span>
+            <h3>Open a pull request</h3>
+            <p>Prefer to do it yourself? Add one object to <code>cases.json</code> following the schema and open a PR. Reviewed and merged the same way as any code change.</p>
+            <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab/edit/main/cases.json" rel="noopener noreferrer" target="_blank">Edit cases.json</a>
+          </article>
+        </div>
+
+        <div class="schema-block">
+          <p class="schema-title">Case entry schema</p>
+          <pre class="terminal-body terminal-body--bare"><code>{
+  "title": "Short, specific title",
+  "author": "Your name or @handle",
+  "url": "https://…  (optional: write-up or repo)",
+  "country": "Country",
+  "flag": "🇺🇳  (optional emoji)",
+  "region": "Africa | Americas | Asia | Europe | Middle East | Oceania",
+  "categories": ["Research synthesis", "Governance", "…"],
+  "summary": "1–3 sentences: what you built and why it matters.",
+  "date": "2026-05"
+}</code></pre>
+          <p class="schema-note">
+            Keep it honest and concrete — describe what was actually built. No marketing copy,
+            no unverifiable claims. See
+            <a href="https://github.com/btekmen/memexlab/blob/main/CONTRIBUTING.md" rel="noopener noreferrer" target="_blank">CONTRIBUTING.md</a>
+            for the full guidelines.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" aria-labelledby="cta-title">
+    <div class="container footer-inner">
+      <h2 id="cta-title" class="cta-title">Build agents that remember with structure.</h2>
+      <div class="cta-row cta-row--center">
+        <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">GitHub</a>
+        <a class="btn btn--ghost" href="./index.html">Home</a>
+        <a class="btn btn--ghost" href="#submit">Submit a case</a>
+      </div>
+      <p class="footer-meta">
+        <span class="badge badge--accent">Open source</span>
+        <span>Local-first · Markdown-native · Built for OpenClaw agents</span>
+      </p>
+      <p class="footer-fine">
+        MemexLab is an agent-operable, markdown-native Memex skills layer for OpenClaw agents.
+        Not affiliated with the people or projects referenced unless otherwise stated.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./showcase.js" defer></script>
+</body>
+</html>

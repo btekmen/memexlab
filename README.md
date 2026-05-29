@@ -12,11 +12,25 @@ holds **only the public landing page** — a static, dependency-free HTML/CSS si
 ## Contents
 
 - `index.html` — the landing page (semantic HTML, responsive, SEO + Open Graph + JSON-LD).
+- `showcase.html` / `showcase.js` — the open-source community showcase.
+- `cases.json` — the showcase data (one object per case; community-contributed).
 - `styles.css` — styles (CSS variables, `prefers-reduced-motion` aware).
 - `assets/favicon.svg` — favicon.
+- `CONTRIBUTING.md` — how to submit a case.
 - `CNAME` — custom domain (`memexlab.xyz`).
 - `.nojekyll` — serves files verbatim (no Jekyll processing).
 - `.github/workflows/pages.yml` — GitHub Pages deployment on push to `main`.
+- `.github/ISSUE_TEMPLATE/submit-a-case.yml` — case submission form.
+
+## Showcase
+
+[`showcase.html`](https://memexlab.xyz/showcase.html) is an open, community-maintained
+gallery of real-world Memex developments and best cases from around the world. It is fully
+static: the page reads [`cases.json`](cases.json) at runtime and renders filterable cards —
+no backend, no database.
+
+Anyone can contribute a case via the issue form or a pull request that adds one object to
+`cases.json`. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the schema and guidelines.
 
 ## Local preview
 

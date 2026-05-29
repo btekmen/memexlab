@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>For OpenClaw Agents — MemexLab</title>
+  <meta name="description" content="Run MemexLab inside an OpenClaw-compatible agent: ingest, markdown, query, brief, and evaluate skills over a governed, markdown-native vault with a public/private boundary." />
+  <meta name="theme-color" content="#080c17" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://memexlab.xyz/agents.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="For OpenClaw Agents — MemexLab" />
+  <meta property="og:description" content="Operate a governed, markdown-native vault through agent skills: ingest, markdown, query, brief, evaluate." />
+  <meta property="og:site_name" content="MemexLab" />
+  <meta property="og:url" content="https://memexlab.xyz/agents.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="For OpenClaw Agents — MemexLab" />
+  <meta name="twitter:description" content="Operate a governed, markdown-native vault through agent skills." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html" aria-label="MemexLab — home">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" aria-hidden="true" />
+        <span class="brand-name">MemexLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html#how-it-works">How it works</a>
+        <a href="./index.html#skills">Skills</a>
+        <a href="./agents.html" aria-current="page">Agents</a>
+        <a href="./index.html#architecture">Architecture</a>
+        <a href="./showcase.html">Showcase</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero hero--compact" aria-labelledby="hero-title">
+      <div class="container">
+        <ul class="badges" aria-label="Status">
+          <li class="badge badge--accent">0.2.0-harness-preview</li>
+          <li class="badge">OpenClaw-compatible</li>
+          <li class="badge">Markdown-native</li>
+          <li class="badge">Human-in-the-loop</li>
+        </ul>
+        <h1 id="hero-title">MemexLab for OpenClaw agents</h1>
+        <p class="lede lede--wide">
+          OpenClaw gives the agent hands. MemexLab gives it a governed long-term mind — a
+          markdown-native vault the agent operates through explicit skills, under schemas,
+          evals, and a public/private boundary.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#quickstart">Agent quick-start</a>
+          <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab-docs" rel="noopener noreferrer" target="_blank">Read the docs</a>
+        </div>
+
+        <figure class="terminal" style="margin-top:2rem" aria-label="Agent skills flow">
+          <div class="terminal-bar" aria-hidden="true">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="terminal-title">openclaw · memex skills</span>
+          </div>
+          <pre class="terminal-body"><code><span class="c-dim"># skills the agent invokes over the vault</span>
+memex-ingest    &lt;source&gt;      <span class="c-arrow">→</span> sources/   <span class="c-dim">(immutable, with provenance)</span>
+memex-markdown  &lt;item&gt;        <span class="c-arrow">→</span> items/     <span class="c-dim">(atomic, linked, cited)</span>
+memex-query     "&lt;question&gt;"  <span class="c-arrow">→</span> <span class="c-accent">cited answer</span>
+memex-brief     "&lt;topic&gt;"     <span class="c-arrow">→</span> brief / memo
+memex-evaluate                <span class="c-arrow">→</span> quality report <span class="c-dim">(retrieval · citations · dedup)</span>
+<span class="c-dim"># writes are dry-run; a human approves; the private vault is never published</span></code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="section" aria-labelledby="why-title">
+      <div class="container narrow">
+        <p class="eyebrow">The split</p>
+        <h2 id="why-title">Runtime vs. memory</h2>
+        <p class="section-intro">
+          OpenClaw provides the agent runtime and assistant surface — tools, context, and the
+          ability to act. MemexLab provides the durable knowledge layer those actions read from
+          and write back to: a plain-markdown vault that can be inspected, cited, evaluated, and
+          governed. The agent doesn't accumulate memory in a chat log or an opaque index — it
+          maintains files you own.
+        </p>
+        <p class="note">
+          <span class="note-tag">Preview</span>
+          OpenClaw skill packaging is experimental in <code>0.2.0-harness-preview</code>. The
+          skills below are described at the product level; concrete packaging and runtime
+          bindings are being validated and may change before a stable release.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section section--alt" aria-labelledby="skills-title">
+      <div class="container">
+        <p class="eyebrow">The skills</p>
+        <h2 id="skills-title">Five skills the agent operates</h2>
+        <p class="section-intro">
+          Each skill is a named, reviewable operation over the vault. It reads from immutable
+          sources and the markdown layer, writes a schema-shaped artifact, and leaves a trail.
+        </p>
+        <div class="skill-grid">
+          <article class="skill-card">
+            <h3>memex-ingest</h3>
+            <p class="skill-what">Brings a source into the vault as a traceable source note.</p>
+            <p class="skill-artifact"><span>Writes</span> <code>sources/</code> — full or lightly-cleaned input.</p>
+            <p class="skill-why"><span>Why</span> every later claim can be traced to where it came from.</p>
+          </article>
+          <article class="skill-card">
+            <h3>memex-markdown</h3>
+            <p class="skill-what">Maintains the canonical markdown layer — atomic items with valid frontmatter and links.</p>
+            <p class="skill-artifact"><span>Writes</span> <code>items/</code> — one thesis or idea per note.</p>
+            <p class="skill-why"><span>Why</span> knowledge stays human-readable, diffable, and re-linkable.</p>
+          </article>
+          <article class="skill-card">
+            <h3>memex-query</h3>
+            <p class="skill-what">Answers a question by retrieving over the vault and citing what it used.</p>
+            <p class="skill-artifact"><span>Returns</span> a cited answer (source paths + entity slugs).</p>
+            <p class="skill-why"><span>Why</span> answers are auditable and can be filed back to compound.</p>
+          </article>
+          <article class="skill-card">
+            <h3>memex-brief</h3>
+            <p class="skill-what">Synthesizes a brief or memo on a topic from the canonical layer.</p>
+            <p class="skill-artifact"><span>Returns</span> a structured brief that links to its sources.</p>
+            <p class="skill-why"><span>Why</span> a position is assembled from evidence, not re-derived.</p>
+          </article>
+          <article class="skill-card">
+            <h3>memex-evaluate</h3>
+            <p class="skill-what">Runs the eval query-set and rubric over the vault.</p>
+            <p class="skill-artifact"><span>Returns</span> a quality report — retrieval, citations, dedup, contradictions.</p>
+            <p class="skill-why"><span>Why</span> quality is measured over time, not assumed.</p>
+          </article>
+          <article class="skill-card">
+            <h3>schemas &amp; evals</h3>
+            <p class="skill-what">Entity schemas define valid artifacts; eval sets + a rubric define "good."</p>
+            <p class="skill-artifact"><span>Files</span> <code>schemas/entity.schema.json</code>, <code>evals/</code>.</p>
+            <p class="skill-why"><span>Why</span> the agent's output is validatable, not vibes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK START -->
+    <section id="quickstart" class="section" aria-labelledby="qs-title">
+      <div class="container">
+        <p class="eyebrow">Agent quick-start</p>
+        <h2 id="qs-title">Wire the skills into your agent</h2>
+        <ol class="steps">
+          <li>
+            <h3>Add the skills</h3>
+            <p>Place the MemexLab skills in your agent's skills directory so the OpenClaw runtime can discover <code>memex-ingest</code>, <code>memex-markdown</code>, <code>memex-query</code>, <code>memex-brief</code>, and <code>memex-evaluate</code>.</p>
+          </li>
+          <li>
+            <h3>Point at a vault</h3>
+            <p>Set the vault path (e.g. <code>~/Documents/Obsidian/&lt;your-vault&gt;/</code>). Keep your real private vault separate from the public framework — the boundary is enforced by governance.</p>
+          </li>
+          <li>
+            <h3>Operate</h3>
+            <p>The agent runs skills: <code>memex-ingest</code> a source, <code>memex-query</code> a question, <code>memex-brief</code> a topic. Retrieval is deterministic; answers cite their sources.</p>
+          </li>
+          <li>
+            <h3>Review before write</h3>
+            <p>Writes are dry-run by default. A human reviews the proposed changes and approves — nothing is committed or published unsupervised.</p>
+          </li>
+          <li>
+            <h3>Validate &amp; compound</h3>
+            <p>Run <code>memex-evaluate</code> to check quality, then file useful answers back into the vault so knowledge compounds instead of being re-derived.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- GOVERNANCE -->
+    <section class="section section--alt" aria-labelledby="gov-title">
+      <div class="container">
+        <p class="eyebrow">Governance for agents</p>
+        <h2 id="gov-title">What an agent may read, write, and publish</h2>
+        <p class="section-intro">
+          Agent actions are bounded by a declarative policy (<code>governance.yml</code>), so an
+          autonomous tool can't quietly leak or overwrite what matters.
+        </p>
+        <div class="def-grid">
+          <article class="def-card">
+            <h3>Public / private boundary</h3>
+            <p>The framework is public-ready; private vault data is never published. The boundary is explicit, not implied.</p>
+          </article>
+          <article class="def-card">
+            <h3>Write policy</h3>
+            <p>Skills may write only to allowed framework paths. Protected private paths are off-limits to agent writes.</p>
+          </article>
+          <article class="def-card">
+            <h3>Deny-publication patterns</h3>
+            <p>Credentials, customer records, board materials, and personal contact details are blocked from crossing the boundary.</p>
+          </article>
+          <article class="def-card">
+            <h3>Human in the loop</h3>
+            <p>Writes are dry-run by default; a human reviews and approves. The agent is a force multiplier, not an unsupervised actor.</p>
+          </article>
+          <article class="def-card">
+            <h3>Required checks</h3>
+            <p>Validation runs before any push, so malformed or unciteable artifacts don't enter the record.</p>
+          </article>
+          <article class="def-card">
+            <h3>Provenance by default</h3>
+            <p>Important claims carry source paths, dates, and confidence — the agent must cite.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOT -->
+    <section class="section" aria-labelledby="not-title">
+      <div class="container narrow">
+        <p class="eyebrow">Honest scope</p>
+        <h2 id="not-title">What the agent layer is not</h2>
+        <ul class="not-list">
+          <li>Not an autonomous researcher — a human approves writes.</li>
+          <li>Not a cloud memory service — the vault is local files you own.</li>
+          <li>Not a vector-database demo — retrieval is deterministic and citable.</li>
+          <li>Not production-stable — this is an early harness preview.</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">View on GitHub</a>
+          <a class="btn btn--ghost" href="./showcase.html">See it in the Showcase</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" aria-labelledby="cta-title">
+    <div class="container footer-inner">
+      <h2 id="cta-title" class="cta-title">Build agents that remember with structure.</h2>
+      <div class="cta-row cta-row--center">
+        <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">GitHub</a>
+        <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab-docs" rel="noopener noreferrer" target="_blank">Documentation</a>
+        <a class="btn btn--ghost" href="./index.html">Home</a>
+      </div>
+      <p class="footer-meta">
+        <span class="badge badge--accent">0.2.0-harness-preview</span>
+        <span>Local-first · Markdown-native · OpenClaw-compatible</span>
+      </p>
+      <p class="footer-fine">
+        MemexLab is an agent-operable, markdown-native Memex skills layer for OpenClaw agents.
+        Not affiliated with the people or projects referenced unless otherwise stated.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

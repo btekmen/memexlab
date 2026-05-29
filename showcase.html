@@ -114,24 +114,72 @@
         <p class="eyebrow">Contribute</p>
         <h2 id="submit-title">Share your Memex development</h2>
         <p class="section-intro">
-          The showcase is open source. Adding a case is a normal open-source contribution —
-          no account beyond GitHub, no backend, no gatekeeping. Pick whichever path suits you:
+          Fill in the form below and we’ll open a pull request for you. A maintainer reviews
+          and merges it, so nothing goes live unreviewed. Keep it honest and concrete — no
+          marketing copy, no unverifiable claims, no private data.
         </p>
 
-        <div class="submit-grid">
-          <article class="submit-card">
-            <span class="submit-step">1</span>
-            <h3>Open a submission</h3>
-            <p>Fill out a short form — title, where you’re based, category, and a couple of sentences. A maintainer turns it into an entry.</p>
-            <a class="btn btn--primary" href="https://github.com/btekmen/memexlab/issues/new?template=submit-a-case.yml" rel="noopener noreferrer" target="_blank">Submit via issue form</a>
-          </article>
-          <article class="submit-card">
-            <span class="submit-step">2</span>
-            <h3>Open a pull request</h3>
-            <p>Prefer to do it yourself? Add one object to <code>cases.json</code> following the schema and open a PR. Reviewed and merged the same way as any code change.</p>
-            <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab/edit/main/cases.json" rel="noopener noreferrer" target="_blank">Edit cases.json</a>
-          </article>
-        </div>
+        <!-- On-site form. Submits to the /api/submit-case serverless function (Vercel),
+             which opens a PR against cases.json. data-sitekey enables Cloudflare Turnstile
+             when set to a real key; left empty it is simply skipped. -->
+        <form id="case-form" class="case-form" data-sitekey="" novalidate>
+          <div class="form-grid">
+            <p class="field field--full">
+              <label for="f-title">Title <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-title" name="title" type="text" maxlength="120" required autocomplete="off" placeholder="Short, specific title" />
+            </p>
+            <p class="field">
+              <label for="f-author">Author <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-author" name="author" type="text" maxlength="80" required autocomplete="off" placeholder="Name or @handle" />
+            </p>
+            <p class="field">
+              <label for="f-url">Link <span class="opt">(optional)</span></label>
+              <input id="f-url" name="url" type="url" maxlength="300" autocomplete="off" placeholder="https://… write-up or repo" />
+            </p>
+            <p class="field">
+              <label for="f-country">Country <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-country" name="country" type="text" maxlength="60" required autocomplete="off" />
+            </p>
+            <p class="field">
+              <label for="f-region">Region <span class="req" aria-hidden="true">*</span></label>
+              <select id="f-region" name="region" required>
+                <option value="">Choose…</option>
+                <option>Africa</option>
+                <option>Americas</option>
+                <option>Asia</option>
+                <option>Europe</option>
+                <option>Middle East</option>
+                <option>Oceania</option>
+              </select>
+            </p>
+            <p class="field field--full">
+              <label for="f-categories">Categories <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-categories" name="categories" type="text" maxlength="200" required autocomplete="off" placeholder="Comma-separated, e.g. Research synthesis, Governance" />
+            </p>
+            <p class="field field--full">
+              <label for="f-summary">Summary <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="f-summary" name="summary" rows="3" maxlength="400" required placeholder="1–3 sentences: what you built and why it matters."></textarea>
+            </p>
+          </div>
+
+          <!-- honeypot: hidden from people, tempting to bots -->
+          <p class="hp" aria-hidden="true">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+          </p>
+
+          <div id="turnstile-slot" class="turnstile-slot"></div>
+
+          <div class="form-actions">
+            <button id="case-submit" class="btn btn--primary" type="submit">Submit case</button>
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          </div>
+          <p class="form-fallback">
+            No JavaScript, or prefer to do it by hand? Use the
+            <a href="https://github.com/btekmen/memexlab/issues/new?template=submit-a-case.yml" rel="noopener noreferrer" target="_blank">issue form</a>
+            or <a href="https://github.com/btekmen/memexlab/edit/main/cases.json" rel="noopener noreferrer" target="_blank">edit <code>cases.json</code></a> directly.
+          </p>
+        </form>
 
         <div class="schema-block">
           <p class="schema-title">Case entry schema</p>
@@ -178,5 +226,6 @@
   </footer>
 
   <script src="./showcase.js" defer></script>
+  <script src="./submit-form.js" defer></script>
 </body>
 </html>

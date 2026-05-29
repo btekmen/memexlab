@@ -13,14 +13,27 @@ holds **only the public landing page** — a static, dependency-free HTML/CSS si
 
 - `index.html` — the landing page (semantic HTML, responsive, SEO + Open Graph + JSON-LD).
 - `showcase.html` / `showcase.js` — the open-source community showcase.
+- `submit-form.js` — the on-site case-submission form handler.
+- `api/submit-case.js` — Vercel serverless function: validates a submission and opens a PR.
 - `cases.json` — the showcase data (one object per case; community-contributed).
 - `styles.css` — styles (CSS variables, `prefers-reduced-motion` aware).
 - `assets/favicon.svg` — favicon.
 - `CONTRIBUTING.md` — how to submit a case.
-- `CNAME` — custom domain (`memexlab.xyz`).
-- `.nojekyll` — serves files verbatim (no Jekyll processing).
-- `.github/workflows/pages.yml` — GitHub Pages deployment on push to `main`.
-- `.github/ISSUE_TEMPLATE/submit-a-case.yml` — case submission form.
+- `SETUP-VERCEL.md` — how to host on Vercel and enable the on-site form.
+- `vercel.json` — Vercel project config.
+- `CNAME` / `.nojekyll` / `.github/workflows/pages.yml` — GitHub Pages support (legacy/mirror).
+- `.github/ISSUE_TEMPLATE/submit-a-case.yml` — case submission issue form (no-JS fallback).
+
+## Hosting
+
+The site is static **plus** one serverless function for the on-site submission form, so it
+is hosted on **Vercel** (`memexlab.xyz`). The function opens a pull request for each
+submission; a maintainer reviews and merges to publish. See
+[`SETUP-VERCEL.md`](SETUP-VERCEL.md) for the one-time setup (Vercel project, GitHub token,
+Turnstile, DNS).
+
+The GitHub Pages files (`CNAME`, `.nojekyll`, the Pages workflow) remain for a static-only
+fallback; they don't run the form.
 
 ## Showcase
 

@@ -379,6 +379,29 @@ img { max-width: 100%; height: auto; display: block; }
 .terminal-body--bare { background: transparent; padding: 0; font-size: 0.82rem; color: var(--text-soft); }
 .schema-note { color: var(--text-soft); font-size: 0.9rem; margin: 0.9rem 0 0; }
 
+/* on-site submission form */
+.case-form { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.6rem; margin: 2rem 0; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.2rem; }
+.field { margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.field--full { grid-column: 1 / -1; }
+.field label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--text-dim); }
+.field .req { color: var(--accent); }
+.field .opt { color: var(--text-dim); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.field input, .field select, .field textarea {
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); padding: 0.6rem 0.75rem; font: inherit; font-size: 0.95rem; width: 100%;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text-dim); }
+.field textarea { resize: vertical; min-height: 4.5rem; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.turnstile-slot:not(:empty) { margin-top: 1.1rem; }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin-top: 1.2rem; }
+.form-status { margin: 0; font-size: 0.92rem; color: var(--text-soft); }
+.form-status--pending { color: var(--text-soft); }
+.form-status--ok { color: var(--good); }
+.form-status--error { color: #e88f8f; }
+.form-fallback { margin: 1rem 0 0; font-size: 0.88rem; color: var(--text-dim); }
+
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; }

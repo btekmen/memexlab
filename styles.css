@@ -292,6 +292,29 @@ img { max-width: 100%; height: auto; display: block; }
   .lede { max-width: none; }
 }
 
+/* ---------- showcase CTA band (landing page) ---------- */
+.cta-band {
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(232, 176, 75, 0.06), transparent 60%),
+    var(--bg-alt);
+  border-top: 1px solid var(--accent-dim);
+  border-bottom: 1px solid var(--border-soft);
+  text-align: center;
+}
+.cta-band-inner { margin-inline: auto; }
+.cta-band .section-intro { margin-inline: auto; }
+.globe-chips {
+  list-style: none; padding: 0;
+  margin: 1.6rem auto 0.4rem;
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.globe-chips li {
+  font-size: 0.84rem; color: var(--text-soft);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.3rem 0.75rem; background: var(--panel);
+}
+.globe-chips li:last-child { border-style: dashed; color: var(--accent); border-color: var(--accent-dim); }
+
 /* ============================================================
    Showcase page (showcase.html)
    ============================================================ */

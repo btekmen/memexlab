@@ -1,53 +1,16 @@
 {
-  "$schema": "Each entry documents one real-world Memex development or best case. Fields: title, author (name or @handle), url (optional link to write-up/repo), country, flag (emoji, optional), region (Africa | Americas | Asia | Europe | Middle East | Oceania), categories (array), summary (1-3 sentences), date (YYYY or YYYY-MM), example (true only for the placeholder entries below). Submit via the issue form or a pull request editing this file — see CONTRIBUTING.md.",
+  "$schema": "Each entry documents one real-world Memex development or best case. Fields: title, author (name or @handle), url (optional link to write-up/repo), country, flag (emoji, optional), region (Africa | Americas | Asia | Europe | Middle East | Oceania), categories (array), summary (1-3 sentences), date (YYYY or YYYY-MM), example (true only for placeholder entries). Submit via the on-site form, the issue form, or a pull request editing this file — see CONTRIBUTING.md.",
   "cases": [
     {
-      "title": "Climate-policy research vault with strict provenance",
-      "author": "@example-handle",
-      "url": "",
-      "country": "Germany",
-      "flag": "🇩🇪",
+      "title": "Memex — the agent-operable harness behind MemexLab",
+      "author": "@btekmen",
+      "url": "https://memexlab.xyz/",
+      "country": "Türkiye",
+      "flag": "🇹🇷",
       "region": "Europe",
-      "categories": ["Research synthesis", "Citation & provenance"],
-      "summary": "An agent distills IPCC reports and policy papers into atomic, cited notes; every claim links back to an immutable source, and a weekly eval flags any note missing provenance.",
-      "date": "2026-05",
-      "example": true
-    },
-    {
-      "title": "Founder operating brain for an early-stage fintech",
-      "author": "@example-handle",
-      "url": "",
-      "country": "Singapore",
-      "flag": "🇸🇬",
-      "region": "Asia",
-      "categories": ["Decision support", "Founder brain"],
-      "summary": "Decisions, rationale, and open loops are captured as durable decision memos. The agent retrieves prior positions before each board meeting instead of re-deriving them.",
-      "date": "2026-04",
-      "example": true
-    },
-    {
-      "title": "Commodity market-observation pipeline",
-      "author": "@example-handle",
-      "url": "",
-      "country": "Brazil",
-      "flag": "🇧🇷",
-      "region": "Americas",
-      "categories": ["Market research", "Synthesis"],
-      "summary": "Daily market observations are logged as dated, linkable notes; the agent synthesizes a weekly brief and files the brief back into the vault so coverage compounds over time.",
-      "date": "2026-03",
-      "example": true
-    },
-    {
-      "title": "Public/private publishing workflow for an independent researcher",
-      "author": "@example-handle",
-      "url": "",
-      "country": "Kenya",
-      "flag": "🇰🇪",
-      "region": "Africa",
-      "categories": ["Governance", "Public/private boundary"],
-      "summary": "Private notes are promoted through a governed boundary into shareable essays. The governance skill blocks any private-only material from crossing into the public vault.",
-      "date": "2026-02",
-      "example": true
+      "categories": ["Research synthesis", "Governance", "Evaluation & validation", "Citation & provenance"],
+      "summary": "The reference implementation: a markdown-native vault an agent operates through five skills (ingest, markdown, query, brief, evaluate), JSON entity schemas, an eval query-set and rubric, and a declarative governance.yml that enforces a public/private boundary. Its first synthesized item distills Alex Karp's The Technological Republic into a thesis on AI and modern deterrence.",
+      "date": "2026-05"
     }
   ]
 }

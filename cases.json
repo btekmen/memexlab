@@ -8,8 +8,25 @@
       "country": "Türkiye",
       "flag": "🇹🇷",
       "region": "Europe",
-      "categories": ["Research synthesis", "Governance", "Evaluation & validation", "Citation & provenance"],
+      "categories": [
+        "Research synthesis",
+        "Governance",
+        "Evaluation & validation",
+        "Citation & provenance"
+      ],
       "summary": "The reference implementation: a markdown-native vault an agent operates through five skills (ingest, markdown, query, brief, evaluate), JSON entity schemas, an eval query-set and rubric, and a declarative governance.yml that enforces a public/private boundary. Its first synthesized item distills Alex Karp's The Technological Republic into a thesis on AI and modern deterrence.",
+      "date": "2026-05"
+    },
+    {
+      "title": "Second Brain",
+      "author": "@paylab",
+      "url": "",
+      "country": "Qatar",
+      "region": "Middle East",
+      "categories": [
+        "research"
+      ],
+      "summary": "become the main engine",
       "date": "2026-05"
     }
   ]

@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Memex Skills Agent">
-  <rect width="64" height="64" rx="12" fill="#0e1116"/>
-  <g fill="none" stroke="#e8b04b" stroke-width="2.4" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MemexLab">
+  <rect width="64" height="64" rx="12" fill="#080c17"/>
+  <g fill="none" stroke="#22d3ee" stroke-width="2.4" stroke-linecap="round">
     <circle cx="18" cy="20" r="4.4"/>
     <circle cx="46" cy="20" r="4.4"/>
     <circle cx="32" cy="44" r="4.4"/>
-    <path d="M21.5 23 L42.5 23" stroke="#5b6b7a"/>
-    <path d="M19.5 24 L30.5 41" stroke="#5b6b7a"/>
-    <path d="M44.5 24 L33.5 41" stroke="#5b6b7a"/>
+    <path d="M21.5 23 L42.5 23" stroke="#3a4a66"/>
+    <path d="M19.5 24 L30.5 41" stroke="#3a4a66"/>
+    <path d="M44.5 24 L33.5 41" stroke="#3a4a66"/>
   </g>
 </svg>

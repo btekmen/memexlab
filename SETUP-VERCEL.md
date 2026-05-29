@@ -27,12 +27,19 @@ The function needs permission to open PRs on this repo. Use a **fine-grained PAT
 
 > Scope it to this one repo only. Never commit the token — it lives in Vercel env vars.
 
-## 3. (Recommended) Cloudflare Turnstile for bot protection
+## 3. (Required) Cloudflare Turnstile for bot protection
+
+The submission function is **fail-closed**: with no Turnstile secret set it returns `503`
+and the form is disabled, so the configured GitHub token can't be abused to open unlimited
+PRs. Configure Turnstile to enable the form.
 
 1. Cloudflare dashboard → **Turnstile → Add site** → add `memexlab.xyz`.
 2. Copy the **Site key** (public) and **Secret key** (private).
-3. Put the **Site key** in `showcase.html` on the form: `data-sitekey="<site key>"`.
-   (Left empty, the form still works; Turnstile is simply skipped.)
+3. Put the **Site key** in `showcase.html` on the form: `data-sitekey="<site key>"` (client widget).
+4. Set `TURNSTILE_SECRET` in Vercel (next step) — both are required for the form to work.
+
+> Escape hatch for local testing only: set `ALLOW_UNVERIFIED=true` to bypass the origin and
+> Turnstile checks. Never set this in Production.
 
 ## 4. Add environment variables in Vercel
 
@@ -41,7 +48,7 @@ Project → **Settings → Environment Variables** (Production + Preview):
 | Name | Value |
 | --- | --- |
 | `GITHUB_TOKEN` | the fine-grained PAT from step 2 |
-| `TURNSTILE_SECRET` | the Turnstile secret from step 3 (optional) |
+| `TURNSTILE_SECRET` | the Turnstile secret from step 3 (**required** — form is disabled without it) |
 | `GH_OWNER` | `btekmen` (optional; this is the default) |
 | `GH_REPO` | `memexlab` (optional; default) |
 | `GH_BASE` | `main` (optional; default) |

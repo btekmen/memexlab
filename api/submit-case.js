@@ -76,6 +76,26 @@ module.exports = async function handler(req, res) {
   // Honeypot: real users never fill this hidden field. Silently accept bots.
   if (clean(body.company, 50)) return res.status(200).json({ ok: true, skipped: true });
 
+  // Same-origin guard: only accept requests that originate from the site itself
+  // (browsers send Origin/Referer). Raises the bar against scripted cross-origin abuse.
+  const ALLOW_ORIGIN = /^(https:\/\/(www\.)?memexlab\.xyz|http:\/\/localhost(:\d+)?|http:\/\/127\.0\.0\.1(:\d+)?)$/;
+  const origin = req.headers.origin || "";
+  let refOrigin = "";
+  try { if (req.headers.referer) refOrigin = new URL(req.headers.referer).origin; } catch (e) {}
+  const allowUnverified = process.env.ALLOW_UNVERIFIED === "true";
+  if (!allowUnverified && !(ALLOW_ORIGIN.test(origin) || ALLOW_ORIGIN.test(refOrigin))) {
+    return res.status(403).json({ ok: false, error: "Forbidden origin." });
+  }
+
+  // Fail-closed: bot protection is REQUIRED. Without a Turnstile secret configured the
+  // form is disabled, so a configured GitHub token can't be abused to open unlimited PRs.
+  if (!process.env.TURNSTILE_SECRET && !allowUnverified) {
+    return res.status(503).json({
+      ok: false,
+      error: "Submissions are temporarily disabled (bot protection not configured). Please use the GitHub issue form or open a pull request.",
+    });
+  }
+
   // Bot check
   const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim();
   const okBot = await verifyTurnstile(process.env.TURNSTILE_SECRET, body.turnstileToken, ip);

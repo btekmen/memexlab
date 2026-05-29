@@ -1,80 +1,76 @@
-# MemexLab
+# MemexLab — website
 
-The landing site for **MemexLab** — an agent-operable Memex skills layer built on
-OpenClaw and the Memex knowledge operating system.
+The public website for **MemexLab** ([memexlab.xyz](https://memexlab.xyz)) — an
+agent-operable, markdown-native memory layer for OpenClaw-compatible agents.
 
 **Live:** <https://memexlab.xyz/> · **Status:** `0.2.0-harness-preview` (early preview — not production-stable)
 
-MemexLab is a local-first, markdown-native knowledge operating system that turns raw
-inputs into governed, citable, compounding thinking assets for agents. This repository
-holds **only the public landing page** — a static, dependency-free HTML/CSS site.
+This repository holds **only the website**: static HTML/CSS/JS plus one serverless function
+that powers the showcase submission form. The methodology lives in the docs repo; the engine
+is a separate, not-yet-public repository.
+
+## Repository map
+
+| Name | What it is | Visibility |
+| --- | --- | --- |
+| **`memexlab`** (this repo) | The website at memexlab.xyz | Public |
+| **`memexlab-docs`** | Documentation & specification | Public |
+| **`memex`** | The CLI engine + skills / schemas / evals / governance | Private — not yet released |
+| Personal vaults | Your actual knowledge base | Never published |
 
 ## Contents
 
-- `index.html` — the landing page (semantic HTML, responsive, SEO + Open Graph + JSON-LD).
+- `index.html` — landing page (semantic HTML, responsive, SEO + Open Graph + JSON-LD).
+- `agents.html` — guide for OpenClaw agents operating a vault.
 - `showcase.html` / `showcase.js` — the open-source community showcase.
-- `submit-form.js` — the on-site case-submission form handler.
+- `submit-form.js` — on-site case-submission form handler.
 - `api/submit-case.js` — Vercel serverless function: validates a submission and opens a PR.
-- `cases.json` — the showcase data (one object per case; community-contributed).
-- `styles.css` — styles (CSS variables, `prefers-reduced-motion` aware).
-- `assets/favicon.svg` — favicon.
+- `cases.json` — showcase data (one object per case; community-contributed).
+- `styles.css` / `assets/favicon.svg` — styles and favicon.
 - `CONTRIBUTING.md` — how to submit a case.
-- `SETUP-VERCEL.md` — how to host on Vercel and enable the on-site form.
+- `SETUP-VERCEL.md` — Vercel hosting + form setup.
 - `vercel.json` — Vercel project config.
-- `CNAME` / `.nojekyll` / `.github/workflows/pages.yml` — GitHub Pages support (legacy/mirror).
-- `.github/ISSUE_TEMPLATE/submit-a-case.yml` — case submission issue form (no-JS fallback).
+- `LICENSE` — MIT.
+- `CNAME` / `.nojekyll` / `.github/workflows/pages.yml` — GitHub Pages static fallback only.
 
-## Hosting
+## Hosting & deploy
 
-The site is static **plus** one serverless function for the on-site submission form, so it
-is hosted on **Vercel** (`memexlab.xyz`). The function opens a pull request for each
-submission; a maintainer reviews and merges to publish. See
-[`SETUP-VERCEL.md`](SETUP-VERCEL.md) for the one-time setup (Vercel project, GitHub token,
-Turnstile, DNS).
+**Primary — Vercel.** The site is static **plus** one serverless function
+(`api/submit-case.js`), which GitHub Pages can't run. So `memexlab.xyz` is hosted on
+**Vercel**: importing the repo, the scoped GitHub token, Cloudflare Turnstile, env vars, and
+DNS are all covered in [`SETUP-VERCEL.md`](SETUP-VERCEL.md). Vercel auto-deploys on every push
+to `main`.
 
-The GitHub Pages files (`CNAME`, `.nojekyll`, the Pages workflow) remain for a static-only
-fallback; they don't run the form.
+**Fallback — GitHub Pages (static only).** The repo keeps `CNAME`, `.nojekyll`, and
+`.github/workflows/pages.yml` so the static pages *can* be served from GitHub Pages if you ever
+move off Vercel. Two caveats: the **submission form won't work** on Pages (no serverless
+functions), and an apex domain points to **one** host — so don't configure Vercel and Pages DNS
+at the same time. The live domain currently uses Vercel's DNS.
 
-## Showcase
+## Submission form & abuse protection
 
-[`showcase.html`](https://memexlab.xyz/showcase.html) is an open, community-maintained
-gallery of real-world Memex developments and best cases from around the world. It is fully
-static: the page reads [`cases.json`](cases.json) at runtime and renders filterable cards —
-no backend, no database.
-
-Anyone can contribute a case via the issue form or a pull request that adds one object to
-`cases.json`. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the schema and guidelines.
+Flow: on-site form → serverless function → opens a **pull request** against `cases.json` → a
+maintainer reviews and merges to publish. Nothing goes live unreviewed. Bot protection is a
+honeypot field **plus Cloudflare Turnstile**; the function is **fail-closed** — it refuses
+submissions unless Turnstile is configured — and only accepts requests from the site's own
+origin. Configure Turnstile per [`SETUP-VERCEL.md`](SETUP-VERCEL.md) before promoting the form
+widely. The GitHub issue form and direct PRs are always-available fallbacks.
 
 ## Local preview
 
-No dependencies or build step — open `index.html` directly, or serve the folder:
+No build step. Static preview:
 
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
-## Deploy
+For the form/function locally, use `vercel dev` (see `SETUP-VERCEL.md`).
 
-The workflow deploys on every push to `main`. One-time setup:
+## License
 
-1. **Settings → Pages → Source: GitHub Actions**.
-2. DNS for `memexlab.xyz` (apex records at your DNS provider):
-
-   ```
-   A     @   185.199.108.153
-   A     @   185.199.109.153
-   A     @   185.199.110.153
-   A     @   185.199.111.153
-   AAAA  @   2606:50c0:8000::153
-   AAAA  @   2606:50c0:8001::153
-   AAAA  @   2606:50c0:8002::153
-   AAAA  @   2606:50c0:8003::153
-   ```
-
-3. Confirm the custom domain in **Settings → Pages**, then enable **Enforce HTTPS**.
+[MIT](LICENSE).
 
 ## Credits
 
-Intellectual lineage and references are credited on the site. Not affiliated with the
-people or projects referenced unless otherwise stated.
+Intellectual lineage and references are credited on the site and in `memexlab-docs`. Not
+affiliated with the people or projects referenced unless otherwise stated.

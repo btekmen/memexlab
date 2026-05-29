@@ -148,7 +148,7 @@ memex-evaluate                <span class="c-arrow">→</span> quality report <s
           <article class="skill-card">
             <h3>schemas &amp; evals</h3>
             <p class="skill-what">Entity schemas define valid artifacts; eval sets + a rubric define "good."</p>
-            <p class="skill-artifact"><span>Files</span> <code>schemas/entity.schema.json</code>, <code>evals/</code>.</p>
+            <p class="skill-artifact"><span>Where</span> in the <code>memex</code> engine repo (e.g. <code>schemas/entity.schema.json</code>, <code>evals/</code>) — separate from this site, not yet public.</p>
             <p class="skill-why"><span>Why</span> the agent's output is validatable, not vibes.</p>
           </article>
         </div>
@@ -160,6 +160,7 @@ memex-evaluate                <span class="c-arrow">→</span> quality report <s
       <div class="container">
         <p class="eyebrow">Agent quick-start</p>
         <h2 id="qs-title">Wire the skills into your agent</h2>
+        <p class="note"><span class="note-tag">Preview</span> The MemexLab skills, schemas, evals, and governance live in the <code>memex</code> engine/framework repo, which is separate from this site and not yet public. The steps below describe the intended interface.</p>
         <ol class="steps">
           <li>
             <h3>Add the skills</h3>
@@ -191,8 +192,9 @@ memex-evaluate                <span class="c-arrow">→</span> quality report <s
         <p class="eyebrow">Governance for agents</p>
         <h2 id="gov-title">What an agent may read, write, and publish</h2>
         <p class="section-intro">
-          Agent actions are bounded by a declarative policy (<code>governance.yml</code>), so an
-          autonomous tool can't quietly leak or overwrite what matters.
+          Agent actions are bounded by a declarative policy (<code>governance.yml</code>, defined
+          in the <code>memex</code> engine repo), so an autonomous tool can't quietly leak or
+          overwrite what matters.
         </p>
         <div class="def-grid">
           <article class="def-card">

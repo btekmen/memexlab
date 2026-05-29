@@ -470,3 +470,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .pathways { grid-template-columns: 1fr; }
 }
+
+/* small inline note + footer ecosystem link */
+.muted-note { color: var(--text-dim); font-size: 0.85em; }
+.footer-meta a { color: var(--accent); font-weight: 600; }

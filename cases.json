@@ -1,0 +1,16 @@
+{
+  "$schema": "Each entry documents one real-world Memex development or best case. Fields: title, author (name or @handle), url (optional link to write-up/repo), country, flag (emoji, optional), region (Africa | Americas | Asia | Europe | Middle East | Oceania), categories (array), summary (1-3 sentences), date (YYYY or YYYY-MM), example (true only for placeholder entries). Submit via the on-site form, the issue form, or a pull request editing this file — see CONTRIBUTING.md.",
+  "cases": [
+    {
+      "title": "Memex — the agent-operable harness behind MemexLab",
+      "author": "@btekmen",
+      "url": "https://memexlab.xyz/",
+      "country": "Türkiye",
+      "flag": "🇹🇷",
+      "region": "Europe",
+      "categories": ["Research synthesis", "Governance", "Evaluation & validation", "Citation & provenance"],
+      "summary": "The reference implementation: a markdown-native vault an agent operates through five skills (ingest, markdown, query, brief, evaluate), JSON entity schemas, an eval query-set and rubric, and a declarative governance.yml that enforces a public/private boundary. Its first synthesized item distills Alex Karp's The Technological Republic into a thesis on AI and modern deterrence.",
+      "date": "2026-05"
+    }
+  ]
+}

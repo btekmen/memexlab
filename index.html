@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>MemexLab — Agent-Operable Markdown Memory</title>
+  <meta name="description" content="A local-first, markdown-native knowledge operating system for strategic learning, synthesis, and decision support. Built as a Memex skills layer for agents." />
+  <meta name="theme-color" content="#080c17" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://memexlab.xyz/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MemexLab — Agent-Operable Markdown Memory" />
+  <meta property="og:description" content="A local-first, markdown-native knowledge operating system for strategic learning, synthesis, and decision support. Built as a Memex skills layer for agents." />
+  <meta property="og:site_name" content="MemexLab" />
+  <meta property="og:url" content="https://memexlab.xyz/" />
+  <!-- TODO: add an og:image (e.g. https://memexlab.xyz/assets/og.png) once a preview image exists -->
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MemexLab — Agent-Operable Markdown Memory" />
+  <meta name="twitter:description" content="A local-first, markdown-native knowledge operating system for strategic learning, synthesis, and decision support. Built as a Memex skills layer for agents." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- JSON-LD: kept minimal and accurate, no pricing or rating claims -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MemexLab",
+    "url": "https://memexlab.xyz/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux",
+    "softwareVersion": "0.2.0-harness-preview",
+    "description": "A local-first, markdown-native knowledge operating system for strategic learning, synthesis, and decision support. Built as a Memex skills layer for OpenClaw-compatible agents.",
+    "releaseNotes": "Early harness preview validating agent-operable markdown memory, skill workflows, schema-governed artifacts, eval loops, validation, and public/private vault boundaries."
+  }
+  </script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="MemexLab — home">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" aria-hidden="true" />
+        <span class="brand-name">MemexLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#how-it-works">How it works</a>
+        <a href="#skills">Skills</a>
+        <a href="./agents.html">Agents</a>
+        <a href="#architecture">Architecture</a>
+        <a href="./showcase.html">Showcase</a>
+        <a href="#preview">Preview</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <ul class="badges" aria-label="Project status and properties">
+            <li class="badge badge--accent">0.2.0-harness-preview</li>
+            <li class="badge">Local-first</li>
+            <li class="badge">Markdown-native</li>
+            <li class="badge">Built for OpenClaw agents</li>
+          </ul>
+
+          <h1 id="hero-title">An Agent-Operable Memex for Strategic Thinking</h1>
+          <p class="lede">
+            A local-first, markdown-native knowledge operating system that turns raw inputs
+            into governed, citable, compounding thinking assets for agents.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">View on GitHub</a>
+            <a class="btn btn--ghost" href="#architecture">Read the Architecture</a>
+          </div>
+        </div>
+
+        <figure class="terminal" aria-labelledby="terminal-cap">
+          <div class="terminal-bar" aria-hidden="true">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="terminal-title">memex · pipeline</span>
+          </div>
+          <pre class="terminal-body"><code><span class="c-dim"># the compounding loop</span>
+raw sources  <span class="c-arrow">→</span>  markdown wiki
+markdown wiki <span class="c-arrow">→</span>  schemas
+schemas      <span class="c-arrow">→</span>  skills
+skills       <span class="c-arrow">→</span>  evals
+evals        <span class="c-arrow">→</span>  <span class="c-accent">governed agent operations</span>
+<span class="c-dim"># useful answers file back into the wiki</span>
+answers      <span class="c-arrow">↺</span>  markdown wiki</code></pre>
+          <figcaption id="terminal-cap" class="terminal-cap">
+            Sources stay immutable; knowledge compounds in markdown the agent can read, cite, and govern.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="container">
+        <div class="pathways" aria-label="Choose your path">
+          <article class="pathway-card">
+            <span class="pathway-eyebrow">For humans</span>
+            <h3>Operate a durable knowledge vault</h3>
+            <p>Capture, distill, and synthesize raw inputs into governed, citable markdown you own — no cloud, no lock-in.</p>
+            <a class="pathway-link" href="#how-it-works">See how it works →</a>
+          </article>
+          <article class="pathway-card">
+            <span class="pathway-eyebrow">For OpenClaw agents</span>
+            <h3>Operate the vault through skills</h3>
+            <p>Ingest, query, brief, and evaluate over a markdown vault — schema-governed, eval-checked, public/private-bounded.</p>
+            <a class="pathway-link" href="./agents.html">Read the agent guide →</a>
+          </article>
+        </div>
+
+        <div class="stats" aria-label="At a glance" style="margin-top:1.9rem">
+          <div class="stat"><div class="stat-num">5</div><div class="stat-label">Agent skills</div></div>
+          <div class="stat"><div class="stat-num">100<span class="unit">%</span></div><div class="stat-label">Local-first</div></div>
+          <div class="stat"><div class="stat-num">0</div><div class="stat-label">Required cloud deps (vault)</div></div>
+          <div class="stat"><div class="stat-num">MIT</div><div class="stat-label">Open source</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROBLEM ================= -->
+    <section id="problem" class="section" aria-labelledby="problem-title">
+      <div class="container">
+        <p class="eyebrow">The problem</p>
+        <h2 id="problem-title">Most AI memory cannot be inspected, cited, or corrected</h2>
+        <p class="section-intro">
+          Strategic knowledge work needs memory that can be inspected, cited, corrected,
+          evaluated, and compounded. Most systems on offer are none of those things:
+        </p>
+        <ul class="problem-list">
+          <li><strong>Transient chat history</strong> — context evaporates between sessions.</li>
+          <li><strong>Document dumps</strong> — everything is kept, nothing is curated.</li>
+          <li><strong>Opaque vector stores</strong> — you cannot read, audit, or correct what was retrieved.</li>
+          <li><strong>Note-taking themes</strong> — styling over a folder, with no operating model.</li>
+          <li><strong>Brittle RAG demos</strong> — impressive once, unreliable under real use.</li>
+        </ul>
+        <p class="pullquote">
+          “Strategic knowledge work needs memory that can be inspected, cited, corrected,
+          evaluated, and compounded.”
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= PRODUCT DEFINITION ================= -->
+    <section id="definition" class="section section--alt" aria-labelledby="definition-title">
+      <div class="container">
+        <p class="eyebrow">What it is</p>
+        <h2 id="definition-title">A harnessed memory operating system</h2>
+        <p class="section-intro big">
+          Memex is not a dumping ground, an Obsidian theme, or a vector database demo.
+          It is a harnessed memory operating system: a compounding knowledge system an
+          agent can read, cite, evaluate, govern, and operate.
+        </p>
+        <div class="def-grid">
+          <article class="def-card">
+            <h3>Raw sources stay immutable</h3>
+            <p>Ingested text is preserved verbatim as the reproducibility anchor. Nothing rewrites the record.</p>
+          </article>
+          <article class="def-card">
+            <h3>Durable knowledge lives as markdown</h3>
+            <p>The canonical layer is atomic, linked markdown — portable plain text you own, with no lock-in.</p>
+          </article>
+          <article class="def-card">
+            <h3>Agents operate through explicit skills</h3>
+            <p>Every transformation is a named, reviewable operation — not an opaque end-to-end guess.</p>
+          </article>
+          <article class="def-card">
+            <h3>Schemas define repeatable assets</h3>
+            <p>Frontmatter schemas make briefs, memos, and notes structured and validatable.</p>
+          </article>
+          <article class="def-card">
+            <h3>Evals and validation protect quality</h3>
+            <p>Rule-based lint and evaluation checks catch broken links, missing provenance, and drift.</p>
+          </article>
+          <article class="def-card">
+            <h3>Governance controls what can change</h3>
+            <p>Read, write, share, and promote are explicit actions — bounded by a public/private vault boundary.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section id="how-it-works" class="section" aria-labelledby="how-title">
+      <div class="container">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Five stages, one compounding loop</h2>
+        <ol class="stage-grid">
+          <li class="stage">
+            <span class="stage-mark">A</span>
+            <h3>Capture</h3>
+            <p class="stage-io"><span>Inputs</span> books, essays, conversations, research notes, market observations, strategic questions.</p>
+            <p class="stage-io"><span>Output</span> immutable raw sources.</p>
+          </li>
+          <li class="stage">
+            <span class="stage-mark">B</span>
+            <h3>Distill</h3>
+            <p class="stage-io"><span>Action</span> the agent extracts claims, concepts, questions, references, decisions, and open loops.</p>
+            <p class="stage-io"><span>Output</span> structured markdown notes.</p>
+          </li>
+          <li class="stage">
+            <span class="stage-mark">C</span>
+            <h3>Synthesize</h3>
+            <p class="stage-io"><span>Action</span> the wiki is incrementally maintained.</p>
+            <p class="stage-io"><span>Output</span> durable thinking assets — maps, briefs, memos, decision records.</p>
+          </li>
+          <li class="stage">
+            <span class="stage-mark">D</span>
+            <h3>Govern</h3>
+            <p class="stage-io"><span>Action</span> schemas, permissions, validation, and public/private boundaries regulate agent actions.</p>
+            <p class="stage-io"><span>Output</span> safe, agent-operable memory.</p>
+          </li>
+          <li class="stage">
+            <span class="stage-mark">E</span>
+            <h3>Compound</h3>
+            <p class="stage-io"><span>Action</span> useful answers and decisions are filed back into the wiki.</p>
+            <p class="stage-io"><span>Output</span> memory that improves instead of being re-derived.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section id="skills" class="section section--alt" aria-labelledby="skills-title">
+      <div class="container">
+        <p class="eyebrow">Memex skills</p>
+        <h2 id="skills-title">Explicit, reviewable operations over the vault</h2>
+        <p class="section-intro">
+          A skill is a named operation the agent performs over the vault. Each reads from
+          immutable sources and the markdown wiki, writes a schema-shaped artifact, and
+          leaves a reviewable trail. Skill availability and maturity vary in this preview —
+          see the <a href="#preview">preview status</a>.
+        </p>
+        <div class="skill-grid">
+
+          <article class="skill-card">
+            <h3>Source ingestion</h3>
+            <p class="skill-what">Promotes captured material into immutable raw sources with citation metadata.</p>
+            <p class="skill-artifact"><span>Artifact</span> a raw source note with provenance fields.</p>
+            <p class="skill-why"><span>Why</span> every downstream claim can be traced to where it came from.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Claim extraction</h3>
+            <p class="skill-what">Cuts a long source into candidate atomic notes — one claim or concept each.</p>
+            <p class="skill-artifact"><span>Artifact</span> proposed atomic markdown notes for review.</p>
+            <p class="skill-why"><span>Why</span> atomicity makes knowledge re-linkable without cascading rewrites.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Concept map</h3>
+            <p class="skill-what">Builds a reading order or concept map across a topic from existing notes.</p>
+            <p class="skill-artifact"><span>Artifact</span> a structured index linking related notes.</p>
+            <p class="skill-why"><span>Why</span> surfaces the shape of a domain and the gaps still open in it.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Strategic brief</h3>
+            <p class="skill-what">Assembles a position on a topic from the canonical layer, with citations.</p>
+            <p class="skill-artifact"><span>Artifact</span> a brief that links back to its source notes.</p>
+            <p class="skill-why"><span>Why</span> a position developed over months is not re-derived from scratch.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Decision memo</h3>
+            <p class="skill-what">Captures a decision, its rationale, alternatives, and the open loops it leaves.</p>
+            <p class="skill-artifact"><span>Artifact</span> a durable decision record in the vault.</p>
+            <p class="skill-why"><span>Why</span> decisions become inspectable history, not lost context.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Research synthesis</h3>
+            <p class="skill-what">Answers a question by retrieving over the wiki and citing the notes used.</p>
+            <p class="skill-artifact"><span>Artifact</span> a cited Q&amp;A note, fileable back into memory.</p>
+            <p class="skill-why"><span>Why</span> answers are auditable and compound instead of evaporating.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Market observation</h3>
+            <p class="skill-what">Logs a market or domain observation as a dated, linkable note.</p>
+            <p class="skill-artifact"><span>Artifact</span> an observation note tied to relevant entities.</p>
+            <p class="skill-why"><span>Why</span> weak signals accumulate into a durable, searchable record.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Public/private vault governance</h3>
+            <p class="skill-what">Enforces what may be read, written, shared, or promoted across the vault boundary.</p>
+            <p class="skill-artifact"><span>Artifact</span> governed promotion and publishing actions.</p>
+            <p class="skill-why"><span>Why</span> private material is not leaked into shareable output by accident.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Citation and provenance</h3>
+            <p class="skill-what">Attaches and checks source links and cited-slug references on every artifact.</p>
+            <p class="skill-artifact"><span>Artifact</span> provenance fields the agent and human can verify.</p>
+            <p class="skill-why"><span>Why</span> citable memory is the difference between knowledge and a guess.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Evaluation and validation</h3>
+            <p class="skill-what">Runs rule-based checks for schema conformance, broken links, and missing provenance.</p>
+            <p class="skill-artifact"><span>Artifact</span> a validation report; failures block the run.</p>
+            <p class="skill-why"><span>Why</span> quality is enforced by the system, not by good intentions.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OPENCLAW LAYER ================= -->
+    <section id="openclaw" class="section" aria-labelledby="openclaw-title">
+      <div class="container narrow">
+        <p class="eyebrow">The OpenClaw layer</p>
+        <h2 id="openclaw-title">OpenClaw gives the agent hands. Memex gives it a governed long-term mind.</h2>
+        <p class="section-intro">
+          OpenClaw provides the agent runtime and assistant surface. Memex provides the
+          durable memory and knowledge operating layer: a markdown-native vault an agent
+          can read, cite, evaluate, govern, and improve.
+        </p>
+        <p class="note">
+          <span class="note-tag">Preview</span>
+          OpenClaw skill packaging is experimental in this release. The integration is
+          described here at the product level; concrete packaging and runtime bindings are
+          being validated and may change before a stable release.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= ARCHITECTURE ================= -->
+    <section id="architecture" class="section section--alt" aria-labelledby="arch-title">
+      <div class="container">
+        <p class="eyebrow">Architecture</p>
+        <h2 id="arch-title">A system you can read end to end</h2>
+        <p class="section-intro">
+          Information flows top-to-bottom: raw sources stay immutable, skills read from
+          sources and the vault, schemas define what counts as a valid artifact, evaluators
+          check quality, and governance controls access and promotion. The agent runtime
+          operates over all of it — and answers can be filed back into the vault.
+        </p>
+
+        <div class="arch" role="img" aria-label="Architecture diagram: raw sources feed the markdown vault, which is split into private and public vaults; schemas, skills, evaluators, and a governance layer operate over the vault; the agent runtime drives the skills and produces answers, briefs, and decisions that feed back into the vault.">
+          <div class="arch-col">
+            <div class="arch-block arch-block--source">Raw Sources<small>immutable</small></div>
+            <div class="arch-flow" aria-hidden="true">↓</div>
+            <div class="arch-vault">
+              <p class="arch-vault-label">Markdown Vault</p>
+              <div class="arch-vault-split">
+                <div class="arch-block arch-block--private">Private Vault</div>
+                <div class="arch-block arch-block--public">Public Vault</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-col arch-col--ops">
+            <div class="arch-block">Schemas<small>valid artifacts</small></div>
+            <div class="arch-block">Skills<small>read sources + vault</small></div>
+            <div class="arch-block">Evaluators<small>quality + consistency</small></div>
+            <div class="arch-block arch-block--gov">Governance Layer<small>access + promotion</small></div>
+          </div>
+
+          <div class="arch-col">
+            <div class="arch-block arch-block--runtime">Agent Runtime<small>OpenClaw</small></div>
+            <div class="arch-flow" aria-hidden="true">↓</div>
+            <div class="arch-block arch-block--out">Answers · Briefs · Decisions</div>
+            <div class="arch-flow arch-flow--loop" aria-hidden="true">↺ filed back into the vault</div>
+          </div>
+        </div>
+
+        <ul class="arch-legend">
+          <li>Raw sources remain immutable and are never rewritten.</li>
+          <li>Skills read from sources and the vault; schemas define valid artifacts.</li>
+          <li>Evaluators check quality and consistency before anything is trusted.</li>
+          <li>Governance controls access and promotion across the public/private boundary.</li>
+          <li>The agent runtime operates over the system; answers can be filed back in.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= USE CASES ================= -->
+    <section id="use-cases" class="section" aria-labelledby="uc-title">
+      <div class="container">
+        <p class="eyebrow">Use cases</p>
+        <h2 id="uc-title">Where durable, governed memory pays off</h2>
+        <div class="uc-grid">
+          <article class="uc-card"><h3>Strategic learning</h3><p>Turn books and essays into a linked, citable body of knowledge that compounds.</p></article>
+          <article class="uc-card"><h3>Market &amp; investment research</h3><p>Synthesize observations and sources into positions you can defend and revisit.</p></article>
+          <article class="uc-card"><h3>Founder operating brain</h3><p>Keep decisions, rationale, and open loops in one inspectable, governed place.</p></article>
+          <article class="uc-card"><h3>Research assistant for complex domains</h3><p>Answer hard questions over your own corpus, with citations, not a generic model.</p></article>
+          <article class="uc-card"><h3>Decision support</h3><p>Bring structure to ambiguous strategic questions with evidence and provenance.</p></article>
+          <article class="uc-card"><h3>Compounding personal knowledge base</h3><p>A vault that improves over a decade instead of being re-derived each year.</p></article>
+          <article class="uc-card"><h3>Public writing pipeline</h3><p>Move from private notes to shareable artifacts through a governed boundary.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SHOWCASE CTA ================= -->
+    <section id="showcase-cta" class="section cta-band" aria-labelledby="showcase-cta-title">
+      <div class="container narrow cta-band-inner">
+        <p class="eyebrow">Open-source showcase</p>
+        <h2 id="showcase-cta-title">See what agents are building — and share your own</h2>
+        <p class="section-intro">
+          The Showcase is a community gallery of real-world Memex developments and best
+          cases from around the world. Browse the patterns others have built, then submit
+          yours via a GitHub issue or pull request — no backend, no gatekeeping.
+        </p>
+        <ul class="globe-chips" aria-hidden="true">
+          <li>🇩🇪 Europe</li>
+          <li>🇸🇬 Asia</li>
+          <li>🇧🇷 Americas</li>
+          <li>🇰🇪 Africa</li>
+          <li>＋ your case</li>
+        </ul>
+        <div class="cta-row cta-row--center">
+          <a class="btn btn--primary" href="./showcase.html">Browse the Showcase</a>
+          <a class="btn btn--ghost" href="./showcase.html#submit">Submit a case</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHAT THIS IS NOT ================= -->
+    <section id="not" class="section section--alt" aria-labelledby="not-title">
+      <div class="container narrow">
+        <p class="eyebrow">Candid scope</p>
+        <h2 id="not-title">What this is not</h2>
+        <ul class="not-list">
+          <li>Not a generic chatbot.</li>
+          <li>Not an Obsidian theme.</li>
+          <li>Not a vector database demo.</li>
+          <li>Not a cloud-first second brain.</li>
+          <li>Not an unsupervised autonomous agent.</li>
+          <li>Not a replacement for judgment.</li>
+        </ul>
+        <p class="section-intro">
+          This is a harnessed memory operating system for agents that need durable,
+          inspectable, governed knowledge — with a human as the final reviewer.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= LINEAGE & CREDITS ================= -->
+    <section id="lineage" class="section" aria-labelledby="lineage-title">
+      <div class="container">
+        <p class="eyebrow">Intellectual lineage</p>
+        <h2 id="lineage-title">References and gratitude</h2>
+        <p class="section-intro">
+          This project stands on ideas others developed and shared. It is
+          <strong>not affiliated with, endorsed, or sponsored by</strong> any of the people
+          or projects below unless otherwise stated — they are inspirations and references.
+        </p>
+
+        <!-- NOTE: the external links below were verified live via web research on 2026-05-29.
+             Maintainer: please re-confirm before publishing, and prefer The Atlantic's
+             original for Bush's essay if you have access. -->
+        <div class="lineage-grid">
+          <article class="lineage-card">
+            <h3>Andrej Karpathy — LLM Knowledge Bases &amp; LLM Wiki</h3>
+            <p>
+              The foundational pattern: raw sources remain immutable, an LLM incrementally
+              maintains a persistent markdown wiki, and useful answers are filed back into
+              the wiki so knowledge compounds instead of being re-derived from scratch.
+            </p>
+            <p class="lineage-links">
+              <a href="https://x.com/karpathy/status/2039805659525644595" rel="noopener noreferrer" target="_blank">LLM Knowledge Bases thread →</a>
+              <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" rel="noopener noreferrer" target="_blank">LLM Wiki gist →</a>
+            </p>
+          </article>
+
+          <article class="lineage-card">
+            <h3>Vannevar Bush — the original Memex (1945)</h3>
+            <p>
+              Karpathy connects the pattern back to Bush's 1945 vision of the Memex: a
+              private, actively curated knowledge store organized around associative trails
+              between documents — closer to this project than to what the web became. The
+              missing maintenance layer is what the LLM now supplies.
+            </p>
+            <p class="lineage-links">
+              <a href="https://www.w3.org/History/1945/vbush/vbush.shtml" rel="noopener noreferrer" target="_blank">“As We May Think” →</a>
+            </p>
+          </article>
+
+          <article class="lineage-card">
+            <h3>Garry Tan — GStack &amp; GBrain</h3>
+            <p>
+              Thanks to Garry Tan for developing and sharing GStack and GBrain, which are
+              major references for the agent-workflow and brain-layer aspects of this
+              project.
+            </p>
+            <p class="lineage-links">
+              <a href="https://github.com/garrytan/gstack" rel="noopener noreferrer" target="_blank">GStack →</a>
+              <a href="https://github.com/garrytan/gbrain" rel="noopener noreferrer" target="_blank">GBrain →</a>
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PREVIEW STATUS / ROADMAP ================= -->
+    <section id="preview" class="section section--alt" aria-labelledby="preview-title">
+      <div class="container">
+        <p class="eyebrow">Status</p>
+        <h2 id="preview-title">0.2.0-harness-preview</h2>
+        <p class="section-intro">
+          This is an early harness preview. It is not production-stable. The release is
+          focused on validating the foundations:
+        </p>
+        <div class="preview-cols">
+          <div>
+            <h3 class="mini-h">Validating now</h3>
+            <ul class="check-list">
+              <li>Agent-operable markdown memory</li>
+              <li>Skill workflows</li>
+              <li>Schema-governed artifacts</li>
+              <li>Eval loops</li>
+              <li>Validation</li>
+              <li>Public/private vault boundaries</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="mini-h">Roadmap</h3>
+            <ul class="arrow-list">
+              <li>More Memex skills</li>
+              <li>Stronger validation and eval harnesses</li>
+              <li>Better public/private publishing workflows</li>
+              <li>OpenClaw skill packaging</li>
+              <li>More example vaults</li>
+              <li>Benchmarks for synthesis quality and citation integrity</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= CTA FOOTER ================= -->
+  <footer id="repo" class="site-footer" aria-labelledby="cta-title">
+    <div class="container footer-inner">
+      <h2 id="cta-title" class="cta-title">Build agents that remember with structure.</h2>
+      <div class="cta-row cta-row--center">
+        <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">GitHub</a>
+        <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab-docs" rel="noopener noreferrer" target="_blank">Documentation</a>
+        <a class="btn btn--ghost" href="#architecture">Architecture</a>
+        <a class="btn btn--ghost" href="#lineage">Credits</a>
+      </div>
+      <p class="footer-meta">
+        <span class="badge badge--accent">0.2.0-harness-preview</span>
+        <span>Local-first · Markdown-native · Built for OpenClaw agents</span>
+        <a href="https://garl.ai/" rel="noopener noreferrer" target="_blank">Works with GARL ↗</a>
+      </p>
+      <p class="footer-fine">
+        MemexLab is an agent-operable, markdown-native Memex skills layer for OpenClaw agents.
+        Not affiliated with the people or projects referenced unless otherwise stated.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

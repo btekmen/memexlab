@@ -31,21 +31,13 @@ is a separate, not-yet-public repository.
 - `SETUP-VERCEL.md` — Vercel hosting + form setup.
 - `vercel.json` — Vercel project config.
 - `LICENSE` — MIT.
-- `CNAME` / `.nojekyll` / `.github/workflows/pages.yml` — GitHub Pages static fallback only.
 
 ## Hosting & deploy
 
-**Primary — Vercel.** The site is static **plus** one serverless function
-(`api/submit-case.js`), which GitHub Pages can't run. So `memexlab.xyz` is hosted on
-**Vercel**: importing the repo, the scoped GitHub token, Cloudflare Turnstile, env vars, and
-DNS are all covered in [`SETUP-VERCEL.md`](SETUP-VERCEL.md). Vercel auto-deploys on every push
-to `main`.
-
-**Fallback — GitHub Pages (static only).** The repo keeps `CNAME`, `.nojekyll`, and
-`.github/workflows/pages.yml` so the static pages *can* be served from GitHub Pages if you ever
-move off Vercel. Two caveats: the **submission form won't work** on Pages (no serverless
-functions), and an apex domain points to **one** host — so don't configure Vercel and Pages DNS
-at the same time. The live domain currently uses Vercel's DNS.
+Hosted on **Vercel** — the site is static **plus** one serverless function
+(`api/submit-case.js`), which GitHub Pages can't run. Importing the repo, the scoped GitHub
+token, Cloudflare Turnstile, env vars, and DNS are all covered in
+[`SETUP-VERCEL.md`](SETUP-VERCEL.md). Vercel auto-deploys on every push to `main`.
 
 ## Submission form & abuse protection
 

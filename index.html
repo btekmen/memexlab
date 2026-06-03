@@ -62,6 +62,7 @@
         <a href="#skills">Skills</a>
         <a href="./agents.html">Agents</a>
         <a href="#architecture">Architecture</a>
+        <a href="#run">Run it</a>
         <a href="./showcase.html">Showcase</a>
         <a href="#preview">Preview</a>
       </nav>
@@ -414,6 +415,49 @@ answers      <span class="c-arrow">↺</span>  markdown wiki</code></pre>
           <article class="uc-card"><h3>Compounding personal knowledge base</h3><p>A vault that improves over a decade instead of being re-derived each year.</p></article>
           <article class="uc-card"><h3>Public writing pipeline</h3><p>Move from private notes to shareable artifacts through a governed boundary.</p></article>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= RUN IT YOURSELF ================= -->
+    <section id="run" class="section section--alt" aria-labelledby="run-title">
+      <div class="container">
+        <p class="eyebrow">Run it yourself</p>
+        <h2 id="run-title">A self-hosted agent you can run today</h2>
+        <p class="section-intro">
+          MemexLab ships a small, runnable reference agent. It treats a markdown vault as its
+          workspace, loads the skills as capabilities, and reasons with either a local model or
+          a hosted API — switchable with one environment variable. It runs on your own machine
+          and pairs with Obsidian as the editor.
+        </p>
+
+        <div class="terminal" role="img" aria-label="Terminal: a dry run loads skills and the vault with no key; setting MEMEX_PROVIDER picks a local or hosted backend; a task command runs the agent against a vault.">
+          <div class="terminal-bar" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="terminal-title">memexlab-engine — runner</span></div>
+          <pre class="terminal-body"><code><span class="c-dim"># load skills + vault — no key, no model</span>
+python3 runner/agent.py --dry-run --vault examples/fake-vault
+
+<span class="c-dim"># pick a backend: local (air-gapped) or hosted</span>
+export MEMEX_PROVIDER=<span class="c-accent">local</span>   <span class="c-dim"># or: anthropic | openai</span>
+
+<span class="c-dim"># operate the workspace</span>
+python3 runner/agent.py --task <span class="c-accent">"Summarize each note under people/"</span> --vault ~/vault</code></pre>
+        </div>
+
+        <div class="uc-grid">
+          <article class="uc-card"><h3>Local or hosted</h3><p>One env var (<code>MEMEX_PROVIDER</code>) flips between a local model (Ollama, vLLM, LM Studio) and a hosted API (Anthropic, OpenAI). Same code path.</p></article>
+          <article class="uc-card"><h3>Vault as workspace</h3><p>The agent reads and writes only inside the vault you point it at — path-escape guarded, plain markdown on disk.</p></article>
+          <article class="uc-card"><h3>Obsidian + terminal</h3><p>Open the same folder in Obsidian; drive the agent from a terminal. No sync layer in between.</p></article>
+        </div>
+
+        <p class="section-intro">
+          The runner is a minimal, runtime-agnostic loop; <a href="https://github.com/openclaw/openclaw" rel="noopener noreferrer" target="_blank">OpenClaw</a>
+          remains the full agent surface for the same skills and vault. Browse the distilled
+          <a href="https://github.com/btekmen/memexlab-engine/tree/main/library" rel="noopener noreferrer" target="_blank">library of knowledge assets</a>
+          (papers, reports, books) the pipeline produces.
+        </p>
+        <p>
+          <a class="btn btn--primary" href="https://github.com/btekmen/memexlab-engine/tree/main/runner" rel="noopener noreferrer" target="_blank">View the runner →</a>
+          <a class="btn btn--ghost" href="https://btekmen.github.io/memexlab-engine/engineering/self-hosting/" rel="noopener noreferrer" target="_blank">Self-hosting guide →</a>
+        </p>
       </div>
     </section>
 

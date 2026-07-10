@@ -6,8 +6,8 @@ agent-operable, markdown-native memory layer for OpenClaw-compatible agents.
 **Live:** <https://memexlab.xyz/> · **Status:** `0.2.0-harness-preview` (early preview — not production-stable)
 
 This repository holds **only the website**: static HTML/CSS/JS plus one serverless function
-that powers the showcase submission form. The methodology lives in the docs repo; the engine
-is a separate, not-yet-public repository.
+that powers the showcase submission form. The methodology lives in the docs repo; the open
+`memex` CLI engine lives in [`memexlab-engine`](https://github.com/btekmen/memexlab-engine).
 
 ## Repository map
 
@@ -15,7 +15,8 @@ is a separate, not-yet-public repository.
 | --- | --- | --- |
 | **`memexlab`** (this repo) | The website at memexlab.xyz | Public |
 | **`memexlab-docs`** | Documentation & specification | Public |
-| **`memex`** | The CLI engine + skills / schemas / evals / governance | Private — not yet released |
+| **[`memexlab-engine`](https://github.com/btekmen/memexlab-engine)** | The governed memory layer for AI agents — the open `memex` CLI engine (skills / schemas / evals / governance) | Public |
+| **Memex** | The flagship chief-of-staff app ([memex.memexlab.xyz](https://memex.memexlab.xyz)), built on MemexLab | Live |
 | Personal vaults | Your actual knowledge base | Never published |
 
 ## Contents

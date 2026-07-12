@@ -474,3 +474,14 @@ img { max-width: 100%; height: auto; display: block; }
 /* small inline note + footer ecosystem link */
 .muted-note { color: var(--text-dim); font-size: 0.85em; }
 .footer-meta a { color: var(--accent); font-weight: 600; }
+
+/* Comparison page (compare.html) */
+.cmp-wrap { overflow-x: auto; margin-top: 1.25rem; }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 0.96rem; }
+.cmp-table th, .cmp-table td {
+  padding: 0.7rem 0.9rem; text-align: left; vertical-align: top;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+}
+.cmp-table thead th { color: var(--text); font-weight: 700; }
+.cmp-table td { color: var(--text-soft); }
+.cmp-table td:first-child { color: var(--text); font-weight: 500; }

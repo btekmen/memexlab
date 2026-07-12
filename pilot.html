@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Sovereign Memory Pilot — MemexLab</title>
+  <meta name="description" content="A 4–6 week pilot: governed, citable, local memory for one team's agents — on your machines, zero data out. Free; at most two pilots at a time." />
+  <meta name="theme-color" content="#080c17" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://memexlab.xyz/pilot.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sovereign Memory Pilot — MemexLab" />
+  <meta property="og:description" content="A 4–6 week pilot: governed, citable, local memory for one team's agents — on your machines, zero data out. Free; at most two pilots at a time." />
+  <meta property="og:site_name" content="MemexLab" />
+  <meta property="og:url" content="https://memexlab.xyz/pilot.html" />
+  <meta property="og:image" content="https://memexlab.xyz/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://memexlab.xyz/assets/og.png" />
+  <meta name="twitter:title" content="Sovereign Memory Pilot — MemexLab" />
+  <meta name="twitter:description" content="A 4–6 week pilot: governed, citable, local memory for one team's agents — on your machines, zero data out. Free; at most two pilots at a time." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html" aria-label="MemexLab — home">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" aria-hidden="true" />
+        <span class="brand-name">MemexLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html#how-it-works">How it works</a>
+        <a href="./index.html#skills">Skills</a>
+        <a href="./agents.html">Agents</a>
+        <a href="./index.html#architecture">Architecture</a>
+        <a href="./pilot.html" aria-current="page">Pilot</a>
+        <a href="./compare.html">Compare</a>
+        <a href="./showcase.html">Showcase</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="section" aria-labelledby="hero-title">
+      <div class="container narrow">
+        <p class="eyebrow">Design-partner program</p>
+        <h1 id="hero-title">Sovereign Memory Pilot</h1>
+        <p class="section-intro big">
+          Give one team's agents a governed, citable, local memory — in a 4–6
+          week pilot, on your machines, with zero data leaving your building.
+        </p>
+        <p><span class="badge badge--accent">MIT open-source, preview stage</span></p>
+      </div>
+    </section>
+
+    <!-- WHAT IT IS -->
+    <section id="what" class="section" aria-labelledby="what-title">
+      <div class="container">
+        <p class="eyebrow">The pilot</p>
+        <h2 id="what-title">What it is</h2>
+        <p class="section-intro">
+          MemexLab is the governed memory layer for AI agents — MIT
+          open-source, local-first, preview stage. In a pilot, we take one
+          team's (or one executive's) knowledge base, bootstrap it into a
+          plain-markdown vault on your hardware, and connect your agents
+          (Claude Code, Claude Desktop, Cursor) to it through
+          <code>memexlab-mcp</code>:
+        </p>
+        <ul class="arch-legend">
+          <li><strong>Citable answers</strong> — deterministic search; every answer points at your actual documents.</li>
+          <li><strong>Governed writes</strong> — agents can file new notes only into <code>inbox/</code>, with provenance, every write logged. The canonical layer cannot be modified, by construction.</li>
+          <li><strong>Sovereign</strong> — everything runs on your machines. Nothing reaches us. There is no cloud, no account, no telemetry.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section id="who" class="section" aria-labelledby="who-title">
+      <div class="container narrow">
+        <p class="eyebrow">The fit</p>
+        <h2 id="who-title">Who it's for</h2>
+        <p class="section-intro">
+          Regulated and confidentiality-bound teams — finance, legal,
+          healthcare — that want agent leverage without putting their
+          knowledge in someone else's cloud.
+        </p>
+      </div>
+    </section>
+
+    <!-- WHAT YOU GET / WHAT WE ASK -->
+    <section id="get-ask" class="section" aria-labelledby="get-ask-title">
+      <div class="container">
+        <p class="eyebrow">The terms</p>
+        <h2 id="get-ask-title">What you get, what we ask</h2>
+        <div class="def-grid">
+          <article class="def-card">
+            <h3>What you get</h3>
+            <ul class="check-list">
+              <li>A working governed-memory setup for one team, on your hardware.</li>
+              <li>A weekly office hour with the founder for the length of the pilot.</li>
+              <li>A findings memo at the end: what worked, what didn't, what governance caught.</li>
+            </ul>
+          </article>
+          <article class="def-card">
+            <h3>What we ask</h3>
+            <ul class="arrow-list">
+              <li>A short written feedback form every two weeks (5 questions).</li>
+              <li>Permission to name you as a reference in private investor conversations.</li>
+              <li>If the pilot succeeds: an anonymized case study and a letter of intent — public logo use only if you volunteer it.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE & SECURITY -->
+    <section id="security" class="section section--alt" aria-labelledby="security-title">
+      <div class="container">
+        <p class="eyebrow">Architecture</p>
+        <h2 id="security-title">Architecture &amp; security</h2>
+        <p class="section-intro">
+          <strong>Where your data lives:</strong> on your machines, as plain
+          markdown files you can read, diff, and delete. The MCP server is a
+          local process; agents talk to it over stdio. No cloud service, no
+          account, no telemetry, no network calls from the memory layer.
+        </p>
+        <p class="section-intro">
+          <strong>Write boundary (enforced in code, not policy):</strong>
+          agents can create notes only in <code>inbox/</code>, stamped with
+          provenance (who, when, cited sources). Every write appends to an
+          audit log (<code>.memexlab/log.jsonl</code>). There is no code path
+          that modifies your canonical notes — verified by tests, including
+          adversarial ones (path traversal, symlinks, injection).
+        </p>
+        <p class="section-intro">
+          <strong>Citations:</strong> retrieval is deterministic (BM25, no
+          embeddings); results carry slugs, so answers cite your actual
+          documents — auditable by anyone.
+        </p>
+        <p class="section-intro">
+          <strong>Compliance posture (stated honestly):</strong> local-first
+          collapses most of the GDPR surface structurally — no cross-border
+          transfer, no third-party processor; you remain sole controller.
+          SOC 2 Type II is on our roadmap, not a current claim. The engine is
+          MIT open source
+          (<a href="https://github.com/btekmen/memexlab-engine" rel="noopener noreferrer" target="_blank"><code>github.com/btekmen/memexlab-engine</code></a>)
+          — your security team can read every line.
+        </p>
+        <p class="section-intro">
+          <strong>Model choice:</strong> bring your own — a local model
+          (fully offline) or your own API key. The memory layer itself never
+          talks to any model provider.
+        </p>
+      </div>
+    </section>
+
+    <!-- APPLY -->
+    <section id="apply" class="section cta-band" aria-labelledby="apply-title">
+      <div class="container narrow cta-band-inner">
+        <p class="eyebrow">Design-partner program</p>
+        <h2 id="apply-title" class="cta-title">Apply — we run at most two pilots at a time</h2>
+        <p class="section-intro">
+          Pilots are free. We run <strong>at most two pilots at a time</strong>
+          — apply below and we'll schedule honestly.
+        </p>
+
+        <div id="pilotApply"></div>
+        <script>
+        (function(){
+          var TALLY_FORM_ID = "UNCONFIGURED"; // set to the Tally form id to activate the embed
+          var mount = document.getElementById('pilotApply');
+          if (!TALLY_FORM_ID || TALLY_FORM_ID.indexOf('UNCONFIGURED') === 0) {
+            mount.innerHTML = '<a class="btn btn--primary" href="mailto:hello@memexlab.xyz?subject=Sovereign%20Memory%20Pilot">Apply by email →</a>';
+            return;
+          }
+          var f = document.createElement('iframe');
+          f.setAttribute('data-tally-src','https://tally.so/embed/'+TALLY_FORM_ID+'?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1');
+          f.setAttribute('loading','lazy'); f.width='100%'; f.height='300'; f.style.border='0';
+          f.title='Sovereign Memory Pilot application';
+          mount.appendChild(f);
+          var s = document.createElement('script'); s.src='https://tally.so/widgets/embed.js'; document.body.appendChild(s);
+        })();
+        </script>
+
+        <div class="cta-row cta-row--center">
+          <a class="btn btn--ghost" href="https://github.com/btekmen/memexlab-engine" rel="noopener noreferrer" target="_blank">Read the engine on GitHub →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" aria-labelledby="cta-title">
+    <div class="container footer-inner">
+      <h2 id="cta-title" class="cta-title">Build agents that remember with structure.</h2>
+      <div class="cta-row cta-row--center">
+        <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">GitHub</a>
+        <a class="btn btn--ghost" href="https://btekmen.github.io/memexlab-engine/" rel="noopener noreferrer" target="_blank">Documentation</a>
+        <a class="btn btn--ghost" href="./index.html">Home</a>
+      </div>
+      <p class="footer-meta">
+        <span class="badge badge--accent">0.2.0-harness-preview</span>
+        <span>Local-first · Markdown-native · OpenClaw-compatible</span>
+        <a href="https://garl.ai/" rel="noopener noreferrer" target="_blank">Works with GARL ↗</a>
+      </p>
+      <p class="footer-fine">
+        MemexLab is an agent-operable, markdown-native Memex skills layer for OpenClaw agents.
+        Not affiliated with the people or projects referenced unless otherwise stated.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

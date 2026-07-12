@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>MemexLab vs Cloud Second Brains — an honest comparison</title>
+  <meta name="description" content="Cloud capture apps and local governed memory solve different jobs. An honest comparison — including the rows we lose — so you can pick the right tool." />
+  <meta name="theme-color" content="#080c17" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="canonical" href="https://memexlab.xyz/compare.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MemexLab vs Cloud Second Brains" />
+  <meta property="og:description" content="An honest comparison — including the rows we lose." />
+  <meta property="og:site_name" content="MemexLab" />
+  <meta property="og:url" content="https://memexlab.xyz/compare.html" />
+  <meta property="og:image" content="https://memexlab.xyz/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://memexlab.xyz/assets/og.png" />
+  <meta name="twitter:title" content="MemexLab vs Cloud Second Brains" />
+  <meta name="twitter:description" content="An honest comparison — including the rows we lose." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html" aria-label="MemexLab — home">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" aria-hidden="true" />
+        <span class="brand-name">MemexLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html#how-it-works">How it works</a>
+        <a href="./index.html#skills">Skills</a>
+        <a href="./agents.html">Agents</a>
+        <a href="./compare.html" aria-current="page">Compare</a>
+        <a href="./showcase.html">Showcase</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero hero--compact" aria-labelledby="hero-title">
+      <div class="container">
+        <ul class="badges" aria-label="Status">
+          <li class="badge badge--accent">Honest comparison</li>
+          <li class="badge">Claims dated July 2026</li>
+          <li class="badge">No account needed to verify</li>
+        </ul>
+        <h1 id="hero-title">MemexLab vs cloud second brains</h1>
+        <p class="lede lede--wide">
+          Two kinds of tools share the “memex” ancestry (Vannevar Bush, 1945): cloud apps
+          that capture and summarize your reading, and local infrastructure that gives AI
+          agents governed memory. We build the second. This page is for deciding which
+          you actually need — including when the answer isn’t us.
+        </p>
+      </div>
+    </section>
+
+    <!-- WHICH ONE -->
+    <section class="section" aria-labelledby="which-title">
+      <div class="container">
+        <h2 id="which-title">Pick by the job, not the name</h2>
+        <div class="grid grid--2">
+          <div class="def-card">
+            <h3>Use a cloud second brain if…</h3>
+            <p>
+              …you want one-click capture of everything you browse — web pages, videos
+              with transcripts, social posts, feeds — summarized for you, synced through
+              their account, on their servers. WorldBrain’s Memex (memex.garden) is a
+              mature example and capture is genuinely its superpower. If that is your
+              job-to-be-done, use it.
+            </p>
+          </div>
+          <div class="def-card">
+            <h3>Use MemexLab if…</h3>
+            <p>
+              …you want memory that stays yours and that agents can use without being
+              able to corrupt it: a plain-markdown vault on your disk, deterministic
+              retrieval your agent cites by <code>[[slug]]</code>, writes that can only
+              land in <code>inbox/</code> with provenance and an audit log — and any
+              model you like, at zero markup, or no model at all.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCORECARD -->
+    <section class="section" aria-labelledby="score-title">
+      <div class="container">
+        <h2 id="score-title">The honest scorecard</h2>
+        <p class="lede">As of July 2026. We keep this table honest — including the rows we lose. If a claim is stale, <a href="https://github.com/btekmen/memexlab-engine/issues" rel="noopener noreferrer" target="_blank">tell us</a>.</p>
+        <div class="cmp-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr><th scope="col">Job</th><th scope="col">Cloud second brains</th><th scope="col">MemexLab</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>One-click / mobile capture breadth</td><td>✅ Their superpower</td><td>🚧 Inbox path on the roadmap (CLI, bookmarklet, share-sheet)</td></tr>
+              <tr><td>Video transcripts &amp; timestamped notes</td><td>✅ Yes</td><td>🚧 Roadmap — timestamp-citable transcripts</td></tr>
+              <tr><td>Answers with checkable citations</td><td>Reference links</td><td>✅ Deterministic <code>[[slug]]</code> citations to your actual notes</td></tr>
+              <tr><td>Where your data lives</td><td>Their cloud</td><td>✅ Your disk, plain markdown, opens in any editor</td></tr>
+              <tr><td>Agent write governance</td><td>Agents write freely</td><td>✅ <code>inbox/</code>-only writes + provenance + JSONL audit log, enforced in code</td></tr>
+              <tr><td>Model economics</td><td>Usage credits at a markup (less with your own key)</td><td>✅ Your key or a local model, zero markup — deterministic modes need no model</td></tr>
+              <tr><td>Works with no account</td><td>Account required</td><td>✅ <code>uvx memexlab-mcp --vault ~/vault</code></td></tr>
+              <tr><td>Open source</td><td>Legacy extension is open; the live service is cloud</td><td>✅ MIT engine, self-hostable end-to-end</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAME QUESTION -->
+    <section class="section" aria-labelledby="name-title">
+      <div class="container">
+        <h2 id="name-title">The name question, answered straight</h2>
+        <div class="grid grid--3">
+          <div class="def-card">
+            <h3>“How is this different from WorldBrain’s Memex?”</h3>
+            <p>
+              Different product, shared ancestor. Theirs is a cloud capture/summarize
+              tool; ours is a local, governed memory layer for agents — markdown you own,
+              deterministic citations, writes only to <code>inbox/</code> with a log. No
+              account, no cloud, MIT.
+            </p>
+          </div>
+          <div class="def-card">
+            <h3>“And memex.tech?”</h3>
+            <p>
+              No relation — that’s an AI coding agent. We’re the memory harness
+              underneath agents.
+            </p>
+          </div>
+          <div class="def-card">
+            <h3>“Why not just use their MCP server?”</h3>
+            <p>
+              Theirs requires their cloud and account, and lets the agent write freely.
+              Ours runs on your filesystem and cannot touch canonical notes by
+              construction.
+            </p>
+          </div>
+        </div>
+        <div class="cta-row" style="margin-top:2rem">
+          <a class="btn btn--primary" href="https://github.com/btekmen/memexlab-engine" rel="noopener noreferrer" target="_blank">Try the engine (MIT)</a>
+          <a class="btn btn--ghost" href="./agents.html">Wire it into your agent</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" aria-labelledby="cta-title">
+    <div class="container footer-inner">
+      <h2 id="cta-title" class="cta-title">Memory your agent can use — and cannot corrupt.</h2>
+      <div class="cta-row cta-row--center">
+        <a class="btn btn--primary" href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">GitHub</a>
+        <a class="btn btn--ghost" href="https://btekmen.github.io/memexlab-engine/" rel="noopener noreferrer" target="_blank">Documentation</a>
+        <a class="btn btn--ghost" href="./index.html">Home</a>
+      </div>
+      <p class="footer-meta">
+        <span class="badge badge--accent">0.2.0-harness-preview</span>
+        <span>Local-first · Markdown-native · OpenClaw-compatible</span>
+      </p>
+      <p class="footer-fine">
+        Product names above are their owners’ trademarks, used only to identify the
+        products compared. Feature claims are functional observations dated July 2026;
+        no affiliation or endorsement is implied.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

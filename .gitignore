@@ -1,2 +1,6 @@
 .DS_Store
 ._*
+
+# Secrets — never commit env values (names-only template is allowed)
+.env*
+!.env.example

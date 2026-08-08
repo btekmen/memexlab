@@ -16,7 +16,7 @@ that powers the showcase submission form. The methodology lives in the docs repo
 | **`memexlab`** (this repo) | The website at memexlab.xyz | Public |
 | **`memexlab-docs`** | Documentation & specification | Public |
 | **[`memexlab-engine`](https://github.com/btekmen/memexlab-engine)** | The governed memory layer for AI agents — the open `memex` CLI engine (skills / schemas / evals / governance) | Public |
-| **Memex** | The flagship chief-of-staff app ([memex.memexlab.xyz](https://memex.memexlab.xyz)), built on MemexLab | Live |
+| **Memex** | The flagship app — your sovereign personal AGI ([memex.memexlab.xyz](https://memex.memexlab.xyz)), built on MemexLab | Live |
 | Personal vaults | Your actual knowledge base | Never published |
 
 ## Contents

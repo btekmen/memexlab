@@ -176,6 +176,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .def-card h3, .uc-card h3 { color: var(--text); }
 .def-card p, .uc-card p { color: var(--text-soft); margin: 0; font-size: 0.96rem; }
+.def-card .def-fix { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
 
 /* stage grid (how it works) */
 .stage-grid { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; counter-reset: none; }

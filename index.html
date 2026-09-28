@@ -200,18 +200,28 @@ claude mcp add memexlab -- uvx --from \
     <section id="problem" class="section" aria-labelledby="problem-title">
       <div class="container">
         <p class="eyebrow">The problem</p>
-        <h2 id="problem-title">Most AI memory cannot be inspected, cited, or corrected</h2>
+        <h2 id="problem-title">Agent memory fails in three ways</h2>
         <p class="section-intro">
-          Strategic knowledge work needs memory that can be inspected, cited, corrected,
-          evaluated, and compounded. Most systems on offer are none of those things:
+          Chat history, document dumps, opaque vector stores, and brittle RAG demos look different,
+          but they break the same three ways once an agent relies on them for real work:
         </p>
-        <ul class="problem-list">
-          <li><strong>Transient chat history</strong> — context evaporates between sessions.</li>
-          <li><strong>Document dumps</strong> — everything is kept, nothing is curated.</li>
-          <li><strong>Opaque vector stores</strong> — you cannot read, audit, or correct what was retrieved.</li>
-          <li><strong>Note-taking themes</strong> — styling over a folder, with no operating model.</li>
-          <li><strong>Brittle RAG demos</strong> — impressive once, unreliable under real use.</li>
-        </ul>
+        <div class="def-grid">
+          <article class="def-card">
+            <h3>Wrong recall</h3>
+            <p>The agent retrieves something plausible and states it as fact. Nobody can see where it came from, so nobody can check it.</p>
+            <p class="def-fix"><strong>Fix:</strong> every claim carries evidence and a confidence you can revise. See <a href="#philosophy">the six laws</a>.</p>
+          </article>
+          <article class="def-card">
+            <h3>Unguarded writes</h3>
+            <p>Anything the agent touches can be overwritten or leaked. There is no line between drafting a note and changing the record.</p>
+            <p class="def-fix"><strong>Fix:</strong> raw sources are immutable, and writes are explicit, scoped, and audited. See <a href="#definition">what it is</a>.</p>
+          </article>
+          <article class="def-card">
+            <h3>Silent drift</h3>
+            <p>Links break, provenance goes missing, and context disappears between sessions. It works once in a demo and degrades quietly afterwards.</p>
+            <p class="def-fix"><strong>Fix:</strong> schemas, lint, and evals catch broken links, missing provenance, and drift. See <a href="#how-it-works">the run loop</a>.</p>
+          </article>
+        </div>
         <p class="pullquote">
           “Strategic knowledge work needs memory that can be inspected, cited, corrected,
           evaluated, and compounded.”

@@ -12,6 +12,7 @@ Public website for MemexLab at [memexlab.xyz](https://memexlab.xyz) — landing 
 
 - Static HTML/CSS/JS — no framework, no build step, no package.json.
 - One serverless function: `api/submit-case.js` (Vercel Node runtime, `vercel.json` sets `maxDuration`).
+- `notes/` — Slate for Memex, a static local-first notes app (vanilla JS, IndexedDB, PWA) plus `notes/bridge.py`, a stdlib-only local server the *user* runs on their own machine; it is served as a file, never executed by Vercel.
 - Showcase data in `cases.json`; contributions via form → PR, or GitHub issue form (`.github/ISSUE_TEMPLATE/submit-a-case.yml`).
 
 ## Commands
@@ -28,6 +29,7 @@ Public website for MemexLab at [memexlab.xyz](https://memexlab.xyz) — landing 
 ## Guardrails
 
 - **Root = public web.** Before adding any file to the repo root, remember it becomes a URL on memexlab.xyz (no `.vercelignore` exists). Scratch/working docs do not belong in this repo.
+- `notes/bridge.py` writes only into the vault's write dir (`inbox/` by default), binds loopback by default and checks browser `Origin`. Keep it that way: no new write paths, no reading vault contents back to the browser.
 - `api/submit-case.js` is a public write endpoint. Abuse protection is honeypot + Cloudflare Turnstile (fail-closed) + origin check + PR review gate; there is no separate rate limiting. Don't widen what it accepts or what it can write without revisiting that posture.
 - Never commit `.env` files or credential values; `.gitignore` covers `.env*` with an `.env.example` exception.
 - Keep repo-map/version claims in README consistent with the actual state of `memexlab-engine` and `memexlab-docs` when editing.

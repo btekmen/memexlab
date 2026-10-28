@@ -3,13 +3,14 @@
 
 Serves the Slate app from this folder on 127.0.0.1 and gives it one governed write path
 into your vault: POST /api/capture files an entry into the vault's write dir (default
-`inbox/`, or `write_dir:` from the vault's governance.yml) with the same provenance
-frontmatter memexlab-mcp's capture_note writes, appends to .memexlab/log.jsonl, and —
-only if you start it with --reindex — runs `memex reindex` afterwards.
+`inbox/`, or `write_dir:` from the vault's governance.yml) with the Capture Anywhere
+provenance frontmatter (title / status / captured_via / source_url, plus captured_at,
+sources, tags), or a daily note into `daily/YYYY-MM-DD.md`; appends to
+.memexlab/log.jsonl; and — only if you start it with --reindex — runs `memex reindex`.
 
 Standard library only. Nothing leaves your machine: the server binds to loopback unless
 you pass --host, and browser requests are accepted only from this origin and memexlab.xyz
-(add more with --allow-origin). There is no code path that writes outside the write dir.
+(add more with --allow-origin). There is no code path that writes outside the write dir and `daily/`.
 
     python3 bridge.py --vault "~/Desktop/Memex/Wiki"            # app at http://127.0.0.1:7357
     python3 bridge.py --vault ~/vault --reindex                  # + `memex reindex` after each send
@@ -36,6 +37,9 @@ MAX_BODY_BYTES = 2_000_000          # memex MAX_NOTE_BYTES
 MAX_REQUEST_BYTES = 4_000_000
 DEFAULT_ORIGINS = ("https://memexlab.xyz", "https://www.memexlab.xyz")
 _SAFE_PATH = re.compile(r"^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*\.md$")
+_SAFE_NAME = re.compile(r"^[a-z0-9][a-z0-9-]{0,140}\.md$")
+_DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+DAILY_DIR = "daily"
 
 
 def slugify(title: str) -> str:
@@ -60,13 +64,20 @@ def write_dir(vault: pathlib.Path) -> str:
 
 
 def render(entry: dict, wd: str) -> str:
-    lines = ["---", f"title: {yq(entry['title'])}", f"status: {yq(wd)}",
-             f"captured_by: {yq(entry['captured_by'])}", f"captured_at: {yq(entry['captured_at'])}"]
-    if entry["sources"]:
-        lines.append("sources:")
-        lines += [f"- {yq(s)}" for s in entry["sources"]]
-    else:
-        lines.append("sources: []")
+    if entry.get("day"):                                    # templates/daily-note.md
+        lines = ["---", f"date: {entry['day']}", "type: daily",
+                 f"captured_via: {yq(entry['captured_via'])}", f"updated: {yq(entry['captured_at'])}"]
+    else:                                                   # docs/capture-anywhere.md contract
+        lines = ["---", f"title: {yq(entry['title'])}", f"status: {yq(wd)}",
+                 f"captured_via: {yq(entry['captured_via'])}", f"captured_at: {yq(entry['captured_at'])}"]
+        url = next((s for s in entry["sources"] if s.startswith(("http://", "https://"))), None)
+        if url:
+            lines.append(f"source_url: {yq(url)}")
+        if entry["sources"]:
+            lines.append("sources:")
+            lines += [f"- {yq(s)}" for s in entry["sources"]]
+        else:
+            lines.append("sources: []")
     if entry["tags"]:
         lines.append("tags: [" + ", ".join(yq(t) for t in entry["tags"]) + "]")
     lines += ["---", "", entry["body"].rstrip(), ""]
@@ -114,12 +125,24 @@ class Bridge:
             raise ValueError("body must be a string")
         if len(body.encode("utf-8")) > MAX_BODY_BYTES:
             raise ValueError("body larger than 2 MB")
-        agent = req.get("captured_by") if isinstance(req.get("captured_by"), str) else "slate"
+        agent = req.get("captured_via") if isinstance(req.get("captured_via"), str) else "slate"
         agent = re.sub(r"[^\w.-]+", "-", agent.strip())[:40] or "slate"
         now = dt.datetime.now().astimezone()
         captured_at = req.get("captured_at") if isinstance(req.get("captured_at"), str) and len(req.get("captured_at")) < 40 else now.isoformat(timespec="seconds")
         entry = {"title": title, "body": body, "tags": _str_list(req.get("tags")), "sources": _str_list(req.get("sources")),
-                 "captured_by": agent, "captured_at": captured_at}
+                 "captured_via": agent, "captured_at": captured_at, "day": None}
+
+        if req.get("kind") == "daily":
+            # One file per day, overwritten on every send — the journal page for that date.
+            day = req.get("day")
+            if not isinstance(day, str) or not _DAY.match(day):
+                raise ValueError("daily note needs day: YYYY-MM-DD")
+            entry["day"] = day
+            wd, target = DAILY_DIR, (self.vault / DAILY_DIR).resolve()
+            target.mkdir(parents=True, exist_ok=True)
+            rel, action = pathlib.Path(DAILY_DIR) / f"{day}.md", "daily_note"
+            (self.vault / rel).write_text(render(entry, wd), encoding="utf-8")
+            return self._finish(rel, action, entry, now, req)
 
         wd, target = self.target_dir()
         target.mkdir(parents=True, exist_ok=True)
@@ -133,10 +156,15 @@ class Bridge:
             if cand.is_file() and cand.parent == target:
                 rel, action = cand.relative_to(self.vault), "update_note"
         if rel is None:
-            slug = slugify(title)
-            stamp = now.astimezone(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+            # The app proposes the name (docs convention YYYY-MM-DD-HH-MM-slug.md, or the
+            # mcp/cli <slug>-<stamp>.md); the bridge only accepts a plain lowercase .md name
+            # and still de-duplicates. Default is the mcp/cli shape.
+            want = req.get("name")
+            if not (isinstance(want, str) and _SAFE_NAME.match(want)):
+                want = f"{slugify(title)}-{now.astimezone(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.md"
+            base = want[:-3]
             for i in itertools.count():
-                name = f"{slug}-{stamp}.md" if i == 0 else f"{slug}-{stamp}-{i}.md"
+                name = f"{base}.md" if i == 0 else f"{base}-{i}.md"
                 cand = target / name
                 if cand.resolve().parent != target:
                     raise PermissionError(f"write escapes boundary: {name}")
@@ -144,7 +172,11 @@ class Bridge:
                     rel = cand.relative_to(self.vault)
                     break
         (self.vault / rel).write_text(render(entry, wd), encoding="utf-8")
+        return self._finish(rel, action, entry, now, req)
 
+    def _finish(self, rel, action, entry, now, req) -> dict:
+        title = entry["title"]
+        agent = entry["captured_via"]
         log_path = self.vault / LOG_REL
         log_path.parent.mkdir(parents=True, exist_ok=True)
         with log_path.open("a", encoding="utf-8") as f:

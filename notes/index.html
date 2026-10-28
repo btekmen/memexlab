@@ -41,6 +41,7 @@
 
       <div class="sidebar-actions">
         <button class="btn btn--primary btn--block" id="btn-new" type="button">+ New entry <kbd>⌘N</kbd></button>
+        <button class="btn btn--ghost btn--block btn--sm" id="btn-daily" type="button" title="Open today's daily/YYYY-MM-DD.md">Today's journal <kbd>⌘D</kbd></button>
         <input class="search" id="search" type="search" placeholder="Search entries…  ⌘K" aria-label="Search entries" autocomplete="off" />
       </div>
 
@@ -73,7 +74,7 @@
 
       <div class="empty" id="empty" hidden>
         <h1>Private notes that land in your vault.</h1>
-        <p>Write or dictate. Everything stays in this browser until you send it. Each entry becomes a plain markdown file with provenance frontmatter in your vault's <code>inbox/</code> — exactly where <code>memex</code> expects new captures.</p>
+        <p>Write or dictate. Everything stays in this browser until you send it. Each entry becomes a plain markdown file with provenance frontmatter in your vault's <code>inbox/</code> — exactly where <code>memex</code> expects new captures — and "Today's journal" keeps a <code>daily/</code> note.</p>
         <button class="btn btn--primary" id="btn-new-2" type="button">Start an entry</button>
         <p class="hint">Connect a vault in <button class="link-btn" id="btn-settings-2" type="button">Settings</button> — a folder, the local bridge, or just download the files.</p>
       </div>
@@ -101,7 +102,7 @@
 
       <section class="set">
         <h3>Where entries go</h3>
-        <p class="muted">A sent entry is written to <code>&lt;vault&gt;/inbox/&lt;slug&gt;-&lt;timestamp&gt;.md</code> (or the <code>write_dir</code> in your vault's <code>governance.yml</code>), with the same provenance frontmatter as <code>memex</code> and <code>memexlab-mcp</code>, and logged to <code>.memexlab/log.jsonl</code>.</p>
+        <p class="muted">A sent entry is written to <code>&lt;vault&gt;/inbox/</code> (or the <code>write_dir</code> in your vault's <code>governance.yml</code>) with the Capture Anywhere frontmatter (<code>title</code>, <code>status: inbox</code>, <code>captured_via</code>, <code>source_url</code>) plus <code>captured_at</code>, <code>sources</code>, <code>tags</code>, and logged to <code>.memexlab/log.jsonl</code>. "Today's journal" writes <code>daily/YYYY-MM-DD.md</code> from the daily-note template.</p>
 
         <label class="radio"><input type="radio" name="method" value="auto" /> <span><strong>Auto</strong> — bridge if running, else the connected folder, else download</span></label>
 
@@ -149,7 +150,13 @@ python3 bridge.py --vault "~/path/to/your/vault" --reindex
         <label class="field">Default tags for new entries
           <input class="meta" id="default-tags" type="text" placeholder="journal" autocomplete="off" />
         </label>
-        <label class="field">Captured by (frontmatter <code>captured_by</code>)
+        <label class="field">Inbox filename
+          <select id="naming">
+            <option value="date">2026-03-17-11-47-short-description.md (docs convention)</option>
+            <option value="slug">short-description-20260317T114700Z.md (memex-cli / mcp)</option>
+          </select>
+        </label>
+        <label class="field">Frontmatter <code>captured_via</code>
           <input class="meta" id="agent" type="text" placeholder="slate" autocomplete="off" />
         </label>
       </section>

@@ -5,6 +5,7 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "share_target": { "action": "./index.html", "method": "GET", "params": { "title": "title", "text": "text", "url": "url" } },
   "background_color": "#080c17",
   "theme_color": "#080c17",
   "icons": [

@@ -54,12 +54,16 @@ widely. The GitHub issue form and direct PRs are always-available fallbacks.
 ## Slate for Memex (`notes/`)
 
 [memexlab.xyz/notes](https://memexlab.xyz/notes/) is a Slate-style private journal for a memex
-vault: write or dictate an entry, and **Send to Memex** writes it as
-`<vault>/inbox/<slug>-<UTC stamp>.md` — the same filename and provenance frontmatter
-(`title`, `status`, `captured_by`, `captured_at`, `sources`, plus `tags`) that
-`memexlab-mcp`'s `capture_note` and `memex ingest` produce — and appends the write to
-`.memexlab/log.jsonl`. `write_dir:` in the vault's `governance.yml` is honoured. Entries stay
-in the browser (IndexedDB) until sent; there is no account, server, or analytics.
+vault — a fifth path for the engine docs' [Capture Anywhere](https://btekmen.github.io/memexlab-engine/capture-anywhere/)
+contract. Write or dictate an entry, and **Send to Memex** writes
+`<vault>/inbox/YYYY-MM-DD-HH-MM-short-description.md` (the docs' naming; the
+`memex-cli`/`memexlab-mcp` shape `<slug>-<UTC stamp>.md` is a setting) with the contract's
+frontmatter — `title`, `status: inbox`, `captured_via`, `source_url` — plus `captured_at`,
+`sources` and `tags`, and appends the write to `.memexlab/log.jsonl`. **Today's journal** keeps
+one `daily/YYYY-MM-DD.md` per day from the `daily-note.md` template (`date`, `type: daily`).
+`write_dir:` in the vault's `governance.yml` is honoured. Opening the app with
+`?title=&text=&url=` (Android share target, a bookmarklet, an iOS Shortcut) pre-fills an entry.
+Entries stay in the browser (IndexedDB) until sent; there is no account, server, or analytics.
 
 Three ways to reach the vault:
 

@@ -15,7 +15,7 @@ const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
 /* ---------------- settings ---------------- */
-const DEFAULTS = { method: 'auto', bridge: DEFAULT_BRIDGE, reindex: false, lang: '', defaultTags: '', agent: DEFAULT_AGENT, preview: false };
+const DEFAULTS = { method: 'auto', bridge: DEFAULT_BRIDGE, reindex: false, lang: '', defaultTags: '', agent: DEFAULT_AGENT, preview: false, naming: 'date' };
 function loadSettings() {
   try { return { ...DEFAULTS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') }; } catch { return { ...DEFAULTS }; }
 }
@@ -89,20 +89,39 @@ function toast(msg, bad = false) {
 
 /* ---------------- markdown (frontmatter + body) ---------------- */
 function noteWriteDir() { return vault.writeDir || 'inbox'; }
+const isDaily = (note) => note && note.kind === 'daily';
+const dayKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const DAILY_SKELETON = (key) => `# ${key}\n## What I did\n- \n## What I noticed\n- \n## Questions that came up\n- \n`;
+// Inbox notes follow the Capture Anywhere contract (title / status / captured_via / source_url)
+// plus the fields memexlab-mcp and memex-cli add (captured_at, sources, tags). Daily notes
+// follow templates: daily-note.md (date / type: daily).
 function buildMarkdown(note, when = new Date()) {
-  const lines = ['---', `title: ${yq(note.title || 'Untitled')}`, `status: ${yq(noteWriteDir())}`, `captured_by: ${yq(settings.agent || DEFAULT_AGENT)}`, `captured_at: ${yq(isoLocal(when))}`];
-  const src = splitList(note.sources);
-  lines.push(src.length ? 'sources:' : 'sources: []');
-  src.forEach((s) => lines.push(`- ${yq(s)}`));
   const tags = splitList(note.tags);
+  const lines = ['---'];
+  if (isDaily(note)) {
+    lines.push(`date: ${note.day}`, 'type: daily', `captured_via: ${yq(settings.agent || DEFAULT_AGENT)}`, `updated: ${yq(isoLocal(when))}`);
+  } else {
+    lines.push(`title: ${yq(note.title || 'Untitled')}`, `status: ${yq(noteWriteDir())}`, `captured_via: ${yq(settings.agent || DEFAULT_AGENT)}`, `captured_at: ${yq(isoLocal(when))}`);
+    const src = splitList(note.sources);
+    const url = src.find((x) => /^https?:\/\//.test(x));
+    if (url) lines.push(`source_url: ${yq(url)}`);
+    lines.push(src.length ? 'sources:' : 'sources: []');
+    src.forEach((s) => lines.push(`- ${yq(s)}`));
+  }
   if (tags.length) lines.push(`tags: [${tags.map(yq).join(', ')}]`);
   lines.push('---', '', (note.body || '').replace(/\s+$/, ''), '');
   return lines.join('\n');
 }
+// 'date': docs convention YYYY-MM-DD-HH-MM-<slug>.md (sorts chronologically in inbox/);
+// 'slug': the memexlab-mcp / memex-cli shape <slug>-<UTC stamp>.md.
 function noteFilename(note, when) {
+  if (isDaily(note)) return `${note.day}.md`;
   if (note.sent && note.sent.name) return note.sent.name;
-  return `${slugify(note.title || 'Untitled')}-${stampUtc(when)}.md`;
+  const slug = slugify(note.title || 'Untitled');
+  if (settings.naming === 'slug') return `${slug}-${stampUtc(when)}.md`;
+  return `${dayKey(when)}-${pad(when.getHours())}-${pad(when.getMinutes())}-${slug.slice(0, 60).replace(/-+$/, '')}.md`;
 }
+const noteFolder = (note) => (isDaily(note) ? 'daily' : noteWriteDir());
 
 /* ---------------- tiny markdown preview ---------------- */
 function inline(s) {
@@ -166,7 +185,7 @@ function renderList() {
     const b = document.createElement('button'); b.type = 'button'; b.className = 'entry' + (current && n.id === current.id ? ' active' : '');
     const state = !n.sent ? 'unsent' : (n.sent.at < n.updated ? 'stale' : 'sent');
     const snippet = (n.body || '').replace(/\s+/g, ' ').trim().slice(0, 90) || 'Empty';
-    b.innerHTML = `<div class="t"><span class="mark ${state}" title="${state === 'sent' ? 'Sent to vault' : state === 'stale' ? 'Edited since last send' : 'Not sent yet'}"></span><span>${escapeHtml(n.title || 'Untitled')}</span></div><div class="s">${escapeHtml(snippet)}</div>`;
+    b.innerHTML = `<div class="t"><span class="mark ${state}" title="${state === 'sent' ? 'Sent to vault' : state === 'stale' ? 'Edited since last send' : 'Not sent yet'}"></span><span>${escapeHtml(n.title || 'Untitled')}</span>${isDaily(n) ? '<span class="kind">daily</span>' : ''}</div><div class="s">${escapeHtml(snippet)}</div>`;
     b.addEventListener('click', () => { openNote(n.id); els.sidebar.classList.remove('open'); });
     els.entries.appendChild(b);
   }
@@ -180,6 +199,7 @@ function openNote(id) {
   els.empty.hidden = has; els.wrap.hidden = !has;
   if (!has) { renderList(); return; }
   els.title.value = current.title; els.tags.value = current.tags; els.sources.value = current.sources; els.body.value = current.body;
+  els.title.readOnly = isDaily(current); els.sources.hidden = isDaily(current);
   renderSentLine(); renderPreview(); renderList();
   if (!current.body && !current.title) els.title.focus(); else els.body.focus();
 }
@@ -194,11 +214,23 @@ function renderPreview() {
   els.preview.hidden = !on; els.body.hidden = on;
   if (on && current) els.preview.innerHTML = renderMarkdown(els.body.value) || '<p class="muted">Nothing to preview.</p>';
 }
-async function newNote() {
+async function newNote(prefill = {}) {
   flushSave();
   const now = Date.now();
-  const n = { id: uid(), title: defaultTitle(new Date(now)), tags: settings.defaultTags || '', sources: '', body: '', created: now, updated: now, sent: null };
-  notes.push(n); await db.put(n); openNote(n.id); els.title.select();
+  const n = { id: uid(), kind: 'note', title: prefill.title || defaultTitle(new Date(now)), tags: settings.defaultTags || '', sources: prefill.sources || '', body: prefill.body || '', created: now, updated: now, sent: null };
+  notes.push(n); await db.put(n); openNote(n.id); if (!prefill.title) els.title.select();
+}
+// One entry per day, like a journal page: daily/YYYY-MM-DD.md from templates/daily-note.md.
+async function dailyNote() {
+  flushSave();
+  const key = dayKey(new Date());
+  let n = notes.find((x) => isDaily(x) && x.day === key);
+  if (!n) {
+    const now = Date.now();
+    n = { id: uid(), kind: 'daily', day: key, title: key, tags: '', sources: '', body: DAILY_SKELETON(key), created: now, updated: now, sent: null };
+    notes.push(n); await db.put(n);
+  }
+  openNote(n.id); els.body.setSelectionRange(els.body.value.indexOf('- ') + 2, els.body.value.indexOf('- ') + 2);
 }
 function scheduleSave() {
   if (!current) return;
@@ -208,7 +240,8 @@ function scheduleSave() {
 function flushSave() {
   clearTimeout(saveTimer);
   if (!current || !dirty) return;
-  current.title = els.title.value.trim(); current.tags = els.tags.value; current.sources = els.sources.value; current.body = els.body.value;
+  if (!isDaily(current)) current.title = els.title.value.trim();
+  current.tags = els.tags.value; current.sources = els.sources.value; current.body = els.body.value;
   current.updated = Date.now(); dirty = false;
   db.put(current).then(() => { els.saveState.textContent = 'Saved locally'; renderList(); renderSentLine(); }).catch((e) => { els.saveState.textContent = 'Save failed'; toast('Could not save: ' + e.message, true); });
 }
@@ -260,10 +293,10 @@ async function writeFile(dir, name, text) {
 }
 async function sendViaVault(note) {
   if (!(await ensureVaultPerm())) throw new Error('Vault folder permission not granted');
-  const when = new Date(); const wd = noteWriteDir();
+  const when = new Date(); const wd = noteFolder(note);
   const dir = await dirAt(vault.handle, wd, true);
   let name = noteFilename(note, when);
-  const reuse = note.sent && note.sent.via === 'vault' && note.sent.name === name;
+  const reuse = isDaily(note) || (note.sent && note.sent.via === 'vault' && note.sent.name === name);
   if (!reuse) {
     const base = name.replace(/\.md$/, '');
     for (let i = 0; ; i++) {
@@ -277,7 +310,7 @@ async function sendViaVault(note) {
   try {
     const logDir = await dirAt(vault.handle, '.memexlab', true);
     let prev = ''; try { prev = await (await (await logDir.getFileHandle('log.jsonl')).getFile()).text(); } catch { /* new log */ }
-    const entry = { ts: when.toISOString(), agent: settings.agent || DEFAULT_AGENT, action: reuse ? 'update_note' : 'capture_note', path, title: note.title, sources: splitList(note.sources) };
+    const entry = { ts: when.toISOString(), agent: settings.agent || DEFAULT_AGENT, action: isDaily(note) ? 'daily_note' : reuse ? 'update_note' : 'capture_note', path, title: note.title, sources: splitList(note.sources) };
     await writeFile(logDir, 'log.jsonl', prev + (prev && !prev.endsWith('\n') ? '\n' : '') + JSON.stringify(entry) + '\n');
   } catch { /* log is best-effort */ }
   return { via: 'vault', path, name };
@@ -299,7 +332,9 @@ async function sendViaBridge(note) {
   const when = new Date();
   const payload = {
     title: note.title || 'Untitled', body: note.body || '', tags: splitList(note.tags), sources: splitList(note.sources),
-    captured_by: settings.agent || DEFAULT_AGENT, captured_at: isoLocal(when),
+    captured_via: settings.agent || DEFAULT_AGENT, captured_at: isoLocal(when),
+    kind: isDaily(note) ? 'daily' : 'note', day: isDaily(note) ? note.day : null,
+    name: isDaily(note) ? null : noteFilename(note, when),
     path: note.sent && note.sent.via === 'bridge' ? note.sent.path : null,
     reindex: !!settings.reindex,
   };
@@ -316,7 +351,7 @@ function downloadNote(note) {
   const blob = new Blob([buildMarkdown(note, when)], { type: 'text/markdown;charset=utf-8' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  return { via: 'download', path: `${noteWriteDir()}/${name}`, name };
+  return { via: 'download', path: `${noteFolder(note)}/${name}`, name };
 }
 
 /* ---------------- send orchestration ---------------- */
@@ -340,7 +375,7 @@ async function sendNote(note, { silent = false } = {}) {
     await db.put(note);
     if (!silent) {
       const extra = res.reindex && res.reindex.ran ? ' · reindexed' : '';
-      toast(res.via === 'download' ? `Downloaded ${res.name} — drop it into ${noteWriteDir()}/` : `Sent → ${res.path}${extra}`);
+      toast(res.via === 'download' ? `Downloaded ${res.name} — drop it into ${noteFolder(note)}/` : `Sent → ${res.path}${extra}`);
     }
     return true;
   } catch (e) { toast('Send failed: ' + e.message, true); return false; }
@@ -403,7 +438,7 @@ function toggleDictation() {
 function openSettings() {
   $$('input[name=method]').forEach((r) => { r.checked = r.value === settings.method; });
   $('#bridge-url').value = settings.bridge; $('#reindex').checked = !!settings.reindex; $('#lang').value = settings.lang;
-  $('#default-tags').value = settings.defaultTags; $('#agent').value = settings.agent;
+  $('#default-tags').value = settings.defaultTags; $('#agent').value = settings.agent; $('#naming').value = settings.naming;
   $('#fs-unsupported').hidden = fsSupported; $('#btn-pick-vault').disabled = !fsSupported;
   updateVaultStatus(); els.settings.hidden = false;
   if (navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then((e) => { $('#storage-info').textContent = `${notes.length} entries · ${(e.usage / 1024).toFixed(0)} KB used in this browser`; }).catch(() => {});
@@ -423,7 +458,7 @@ async function importFile(file) {
     let added = 0;
     for (const raw of list) {
       if (!raw || typeof raw !== 'object') continue;
-      const n = { id: typeof raw.id === 'string' ? raw.id : uid(), title: String(raw.title || ''), tags: String(raw.tags || ''), sources: String(raw.sources || ''), body: String(raw.body || ''), created: Number(raw.created) || Date.now(), updated: Number(raw.updated) || Date.now(), sent: raw.sent && typeof raw.sent === 'object' ? raw.sent : null };
+      const n = { id: typeof raw.id === 'string' ? raw.id : uid(), kind: raw.kind === 'daily' ? 'daily' : 'note', day: /^\d{4}-\d{2}-\d{2}$/.test(raw.day) ? raw.day : undefined, title: String(raw.title || ''), tags: String(raw.tags || ''), sources: String(raw.sources || ''), body: String(raw.body || ''), created: Number(raw.created) || Date.now(), updated: Number(raw.updated) || Date.now(), sent: raw.sent && typeof raw.sent === 'object' ? raw.sent : null };
       if (notes.some((x) => x.id === n.id)) continue;
       notes.push(n); await db.put(n); added++;
     }
@@ -461,6 +496,8 @@ function wire() {
   $('#lang').addEventListener('change', (e) => { settings.lang = e.target.value; saveSettings(); });
   $('#default-tags').addEventListener('change', (e) => { settings.defaultTags = e.target.value.trim(); saveSettings(); });
   $('#agent').addEventListener('change', (e) => { settings.agent = e.target.value.trim() || DEFAULT_AGENT; saveSettings(); });
+  $('#naming').addEventListener('change', (e) => { settings.naming = e.target.value; saveSettings(); });
+  $('#btn-daily').addEventListener('click', dailyNote);
   $('#btn-export').addEventListener('click', exportAll);
   $('#btn-import').addEventListener('click', () => $('#import-file').click());
   $('#import-file').addEventListener('change', (e) => { if (e.target.files[0]) importFile(e.target.files[0]); e.target.value = ''; });
@@ -471,6 +508,7 @@ function wire() {
   document.addEventListener('keydown', (e) => {
     const mod = e.metaKey || e.ctrlKey; if (!mod) { if (e.key === 'Escape' && !els.settings.hidden) closeSettings(); return; }
     if (e.key === 'n') { e.preventDefault(); newNote(); }
+    else if (e.key === 'd') { e.preventDefault(); dailyNote(); }
     else if (e.key === 'Enter') { e.preventDefault(); sendCurrent(); }
     else if (e.key === 'k') { e.preventDefault(); els.sidebar.classList.add('open'); els.search.focus(); }
     else if (e.key === '/') { e.preventDefault(); $('#btn-preview').click(); }
@@ -492,8 +530,18 @@ function wire() {
   try { notes = await db.all(); } catch (e) { toast('Storage unavailable: ' + e.message, true); notes = []; }
   await restoreVault();
   updateVaultStatus();
-  const latest = notes.slice().sort((a, b) => b.updated - a.updated)[0];
-  openNote(latest ? latest.id : null);
+  // Capture Anywhere: ?title=&text=&url= (Web Share Target on Android, a bookmarklet, or a
+  // Shortcut opening this URL) pre-fills a new inbox entry, like the docs' bookmarklet does.
+  const q = new URLSearchParams(location.search);
+  if (q.has('title') || q.has('text') || q.has('url')) {
+    const url = (q.get('url') || '').trim(); const text = (q.get('text') || '').trim();
+    const body = (text ? '> ' + text.replace(/\n/g, '\n> ') + '\n\n' : '') + (url ? url + '\n' : '');
+    history.replaceState(null, '', location.pathname);
+    await newNote({ title: (q.get('title') || '').trim() || url || undefined, sources: url, body });
+  } else {
+    const latest = notes.slice().sort((a, b) => b.updated - a.updated)[0];
+    openNote(latest ? latest.id : null);
+  }
   probeBridge();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('./sw.js').catch(() => {});
 })();

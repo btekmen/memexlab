@@ -55,6 +55,8 @@ input, textarea, select { font: inherit; color: inherit; }
 .entry .t .mark { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--warn); }
 .entry .t .mark.sent { background: var(--good); }
 .entry .t .mark.stale { background: var(--accent); }
+.entry .t .kind { flex: none; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); border-radius: 999px; padding: 0 6px; }
+.title[readonly] { color: var(--text-soft); }
 .entry .s { color: var(--text-dim); font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .entries .none { color: var(--text-dim); padding: 16px 10px; font-size: 0.9rem; }
 

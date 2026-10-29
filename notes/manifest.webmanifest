@@ -1,0 +1,14 @@
+{
+  "name": "Slate for Memex",
+  "short_name": "Slate",
+  "description": "Private, local-first notes that land in your Memex vault as markdown.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "share_target": { "action": "./index.html", "method": "GET", "params": { "title": "title", "text": "text", "url": "url" } },
+  "background_color": "#080c17",
+  "theme_color": "#080c17",
+  "icons": [
+    { "src": "../assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

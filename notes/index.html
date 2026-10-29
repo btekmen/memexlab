@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>Slate for Memex — private notes that land in your vault</title>
+  <meta name="description" content="A private, local-first notes and journal app for Memex. Write or dictate; every entry is a markdown file with provenance frontmatter that lands in your vault's inbox/. No account, no server, no analytics." />
+  <meta name="theme-color" content="#080c17" />
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="../assets/favicon.svg" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Slate" />
+
+  <link rel="stylesheet" href="./notes.css" />
+</head>
+<body>
+  <a class="skip-link" href="#editor-body">Skip to editor</a>
+
+  <div class="app" id="app">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Entries">
+      <div class="sidebar-top">
+        <a class="brand" href="../index.html" aria-label="MemexLab — home">
+          <img src="../assets/favicon.svg" alt="" width="22" height="22" aria-hidden="true" />
+          <span class="brand-name">Slate <span class="brand-for">for Memex</span></span>
+        </a>
+        <button class="icon-btn" id="btn-settings" type="button" title="Settings (⌘,)" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 .1-1 7.6 7.6 0 0 0-.1-1l2.1-1.7a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.3 7.3 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a7.3 7.3 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.5 11a7.6 7.6 0 0 0-.1 1 7.6 7.6 0 0 0 .1 1l-2.1 1.7a.5.5 0 0 0-.1.6l2 3.5a.5.5 0 0 0 .6.2l2.5-1a7.3 7.3 0 0 0 1.7 1l.4 2.6a.5.5 0 0 0 .5.4h4a.5.5 0 0 0 .5-.4l.4-2.6a7.3 7.3 0 0 0 1.7-1l2.5 1a.5.5 0 0 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="btn btn--primary btn--block" id="btn-new" type="button">+ New entry <kbd>⌘N</kbd></button>
+        <button class="btn btn--ghost btn--block btn--sm" id="btn-daily" type="button" title="Open today's daily/YYYY-MM-DD.md">Today's journal <kbd>⌘D</kbd></button>
+        <input class="search" id="search" type="search" placeholder="Search entries…  ⌘K" aria-label="Search entries" autocomplete="off" />
+      </div>
+
+      <nav class="entries" id="entries" aria-label="Entry list"></nav>
+
+      <div class="sidebar-foot">
+        <div class="vault-status" id="vault-status" aria-live="polite">
+          <span class="dot" id="vault-dot"></span>
+          <span id="vault-text">Not connected to a vault</span>
+        </div>
+        <button class="link-btn" id="btn-send-all" type="button">Send all unsent</button>
+      </div>
+    </aside>
+
+    <!-- ================= EDITOR ================= -->
+    <main class="editor" id="editor">
+      <div class="editor-bar">
+        <button class="icon-btn only-mobile" id="btn-menu" type="button" aria-label="Show entries" title="Entries">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        </button>
+        <span class="save-state" id="save-state" aria-live="polite">Saved locally</span>
+        <span class="spacer"></span>
+        <button class="chip" id="btn-dictate" type="button" title="Dictate (on-device where your browser supports it)" hidden>
+          <span class="rec-dot" aria-hidden="true"></span> Dictate
+        </button>
+        <button class="chip" id="btn-preview" type="button" aria-pressed="false" title="Toggle markdown preview (⌘/)">Preview</button>
+        <button class="chip" id="btn-download" type="button" title="Download this entry as .md">.md</button>
+        <button class="btn btn--primary btn--sm" id="btn-send" type="button" title="Send to Memex (⌘⏎)">Send to Memex</button>
+      </div>
+
+      <div class="empty" id="empty" hidden>
+        <h1>Private notes that land in your vault.</h1>
+        <p>Write or dictate. Everything stays in this browser until you send it. Each entry becomes a plain markdown file with provenance frontmatter in your vault's <code>inbox/</code> — exactly where <code>memex</code> expects new captures — and "Today's journal" keeps a <code>daily/</code> note.</p>
+        <button class="btn btn--primary" id="btn-new-2" type="button">Start an entry</button>
+        <p class="hint">Connect a vault in <button class="link-btn" id="btn-settings-2" type="button">Settings</button> — a folder, the local bridge, or just download the files.</p>
+      </div>
+
+      <div class="editor-body" id="editor-body-wrap">
+        <input class="title" id="title" type="text" placeholder="Title" aria-label="Title" autocomplete="off" />
+        <div class="meta-row">
+          <input class="meta" id="tags" type="text" placeholder="tags: idea, meeting, book" aria-label="Tags, comma separated" autocomplete="off" />
+          <input class="meta" id="sources" type="text" placeholder="sources: https://… , [[slug]]" aria-label="Sources, comma separated" autocomplete="off" />
+        </div>
+        <textarea class="body" id="editor-body" placeholder="Write in markdown. [[wikilinks]] resolve inside the vault." aria-label="Entry body" spellcheck="true"></textarea>
+        <article class="preview" id="preview" hidden></article>
+        <div class="sent-line" id="sent-line" hidden></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= SETTINGS ================= -->
+  <div class="modal" id="settings" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="settings-title">Settings</h2>
+        <button class="icon-btn" id="btn-settings-close" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <section class="set">
+        <h3>Where entries go</h3>
+        <p class="muted">A sent entry is written to <code>&lt;vault&gt;/inbox/</code> (or the <code>write_dir</code> in your vault's <code>governance.yml</code>) with the Capture Anywhere frontmatter (<code>title</code>, <code>status: inbox</code>, <code>captured_via</code>, <code>source_url</code>) plus <code>captured_at</code>, <code>sources</code>, <code>tags</code>, and logged to <code>.memexlab/log.jsonl</code>. "Today's journal" writes <code>daily/YYYY-MM-DD.md</code> from the daily-note template.</p>
+
+        <label class="radio"><input type="radio" name="method" value="auto" /> <span><strong>Auto</strong> — bridge if running, else the connected folder, else download</span></label>
+
+        <label class="radio"><input type="radio" name="method" value="vault" /> <span><strong>Vault folder</strong> — write straight into the folder (Chrome, Edge, Brave, Arc)</span></label>
+        <div class="indent">
+          <div class="row">
+            <button class="btn btn--ghost btn--sm" id="btn-pick-vault" type="button">Choose vault folder…</button>
+            <button class="btn btn--ghost btn--sm" id="btn-forget-vault" type="button" hidden>Forget</button>
+            <span class="muted" id="vault-name"></span>
+          </div>
+          <p class="muted small" id="fs-unsupported" hidden>This browser can't write to folders (Safari, Firefox, iOS). Use the bridge or downloads.</p>
+        </div>
+
+        <label class="radio"><input type="radio" name="method" value="bridge" /> <span><strong>Local bridge</strong> — <code>bridge.py</code> running on your Mac (works in every browser, can run <code>memex reindex</code>)</span></label>
+        <div class="indent">
+          <div class="row">
+            <input class="meta" id="bridge-url" type="url" placeholder="http://127.0.0.1:7357" aria-label="Bridge URL" />
+            <button class="btn btn--ghost btn--sm" id="btn-probe" type="button">Test</button>
+            <span class="muted" id="bridge-state"></span>
+          </div>
+          <label class="check"><input type="checkbox" id="reindex" /> <span>Run <code>memex reindex</code> after each send (bridge started with <code>--reindex</code>)</span></label>
+          <details class="muted small">
+            <summary>How to start the bridge</summary>
+<pre><code>curl -O https://memexlab.xyz/notes/bridge.py
+python3 bridge.py --vault "~/path/to/your/vault" --reindex
+# app + bridge at http://127.0.0.1:7357 — Safari and iPhone (same Wi-Fi, --host 0.0.0.0) included</code></pre>
+          </details>
+        </div>
+
+        <label class="radio"><input type="radio" name="method" value="download" /> <span><strong>Download</strong> — save the .md file yourself, drop it into <code>inbox/</code></span></label>
+      </section>
+
+      <section class="set">
+        <h3>Writing</h3>
+        <label class="field">Dictation language
+          <select id="lang">
+            <option value="">Browser default</option>
+            <option value="tr-TR">Türkçe</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="fr-FR">Français</option>
+          </select>
+        </label>
+        <label class="field">Default tags for new entries
+          <input class="meta" id="default-tags" type="text" placeholder="journal" autocomplete="off" />
+        </label>
+        <label class="field">Inbox filename
+          <select id="naming">
+            <option value="date">2026-03-17-11-47-short-description.md (docs convention)</option>
+            <option value="slug">short-description-20260317T114700Z.md (memex-cli / mcp)</option>
+          </select>
+        </label>
+        <label class="field">Frontmatter <code>captured_via</code>
+          <input class="meta" id="agent" type="text" placeholder="slate" autocomplete="off" />
+        </label>
+      </section>
+
+      <section class="set">
+        <h3>Your data</h3>
+        <p class="muted">Entries live only in this browser's storage. Export regularly if you don't send them.</p>
+        <div class="row">
+          <button class="btn btn--ghost btn--sm" id="btn-export" type="button">Export all (JSON)</button>
+          <button class="btn btn--ghost btn--sm" id="btn-import" type="button">Import JSON…</button>
+          <input id="import-file" type="file" accept="application/json,.json" hidden />
+          <button class="btn btn--ghost btn--sm danger" id="btn-wipe" type="button">Delete everything</button>
+        </div>
+        <p class="muted small" id="storage-info"></p>
+      </section>
+
+      <p class="muted small">No account. No server. No analytics. The only network call this page can make is to a bridge you run yourself. <a href="https://github.com/btekmen/memexlab" rel="noopener noreferrer" target="_blank">Source</a></p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="./notes.js"></script>
+</body>
+</html>

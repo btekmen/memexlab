@@ -1,0 +1,95 @@
+# XcodeGen spec — `brew install xcodegen && xcodegen generate` produces Slate.xcodeproj.
+# Set your team under Signing & Capabilities (or DEVELOPMENT_TEAM below) before running on a device.
+name: Slate
+options:
+  bundleIdPrefix: xyz.memexlab
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+targets:
+  Slate:
+    type: application
+    platform: iOS
+    sources:
+      - Slate
+      - Shared
+    entitlements:
+      path: Slate/Slate.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.xyz.memexlab.slate
+    info:
+      path: Slate/Info.plist
+      properties:
+        CFBundleDisplayName: Slate
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIUserInterfaceStyle: Dark
+        NSMicrophoneUsageDescription: Slate records your voice only while you hold the microphone button, to transcribe it into the entry.
+        NSSpeechRecognitionUsageDescription: Slate transcribes dictation. On-device recognition is used whenever your device supports it; nothing is sent to a server otherwise.
+        NSLocalNetworkUsageDescription: Only if you choose the local bridge as delivery, Slate talks to bridge.py running on your own Mac on this network.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        CFBundleURLTypes:
+          - CFBundleURLName: xyz.memexlab.slate
+            CFBundleURLSchemes: [slate]
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+    dependencies:
+      - target: SlateShare
+        embed: true
+  SlateShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - SlateShare
+      - Shared
+    entitlements:
+      path: SlateShare/SlateShare.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.xyz.memexlab.slate
+    info:
+      path: SlateShare/Info.plist
+      properties:
+        CFBundleDisplayName: "→ inbox"
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsWebURLWithMaxCount: 1
+              NSExtensionActivationSupportsWebPageWithMaxCount: 1
+              NSExtensionActivationSupportsText: true
+  SlateTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - SlateTests
+    dependencies:
+      - target: Slate
+schemes:
+  Slate:
+    build:
+      targets:
+        Slate: all
+        SlateTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [SlateTests]

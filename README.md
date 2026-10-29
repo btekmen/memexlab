@@ -27,6 +27,7 @@ that powers the showcase submission form. The methodology lives in the docs repo
 - `submit-form.js` — on-site case-submission form handler.
 - `notes/` — **Slate for Memex**: a private, local-first notes/journal app (`index.html`, `notes.js`, `notes.css`, installable PWA) whose entries land in your vault's `inbox/` as markdown with provenance frontmatter — see [Slate for Memex](#slate-for-memex-notes).
 - `notes/bridge.py` — optional stdlib-only local bridge for the app (writes into the vault, runs `memex reindex`).
+- `ios/` — **Slate for Memex, native iOS** (SwiftUI): the same journal as an iPhone app — picks the vault in Files (iCloud), on-device dictation, share-sheet capture. See [`ios/README.md`](ios/README.md). Not deployed.
 - `api/submit-case.js` — Vercel serverless function: validates a submission and opens a PR.
 - `cases.json` — showcase data (one object per case; community-contributed).
 - `styles.css` / `assets/favicon.svg` — styles and favicon.
